@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/ujjwalsingh/Development/assn_cs3300/c-compiler/TAC_INTERPRETER",
+      "program": "/Users/ujjwalsingh/Development/assn_cs3300/c-compiler/TAC_INTERPRETER/build/Debug/outDebug"
+    }
+  ]
+}

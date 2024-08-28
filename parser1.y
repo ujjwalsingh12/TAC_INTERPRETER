@@ -1,10 +1,15 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
 
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+using namespace std;
 // Define external yylex function from Lex
 int yylex();
 void yyerror(const char *s);
+unordered_map<string,vector<int> > symboltable;
+int stop_parsing = 0;
 %}
 
 %union {
@@ -12,7 +17,7 @@ void yyerror(const char *s);
 }
 
 // Define tokens
-%token <str> IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
+%token <str> EQ ENDDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
 
 %%
 
@@ -24,7 +29,12 @@ program:
     ;
 
 token:
-    IDENTIFIER   { printf("IDENTIFIER: %s\n", $1); }
+    TEMPORARY  { printf("TEMPORARY: %s\n", $1); }
+    | ENDDD  { printf("asdf");stop_parsing = 1;YYABORT;}
+    |IDENTIFIER   { printf("IDENTIFIER: %s\n", $1); 
+                        vector<int> aa;
+                        symboltable[$1] = aa; }
+    |F_IDENTIFIER   { printf("F_IDENTIFIER: %s\n", $1); }
     | NUMBER      { printf("NUMBER: %s\n", $1); }
     | TEMPORARY   { printf("TEMPORARY: %s\n", $1); }
     | LABEL       { printf("LABEL: %s\n", $1); }
@@ -37,6 +47,7 @@ token:
 	| H 			{ printf("H: %s\n", $1); }
 	| OP 			{ printf("%s\n", $1); }
 	| CP			{ printf("%s\n", $1); }
+    | EQ            { printf("%s\n", $1);}
     // | '='           { printf("EQUALS: %c\n", $1); }
     // | '+'           { printf("PLUS: %c\n", $1); }
     // | '-'           { printf("MINUS: %c\n", $1); }
@@ -48,10 +59,21 @@ token:
 
 // Main function to start the parser
 int main() {
-    return yyparse();
+        while (!stop_parsing) {
+        yyparse();
+    }
+    for (const auto& pair : symboltable) {
+        std::cout << "Key: " << pair.first << " -> Values: ";
+        for (int value : pair.second) {
+            std::cout << value << " ";
+        }
+        std::cout << std::endl;
+    }
+    return 1;
 }
 
 // Error handling function
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
+
 }

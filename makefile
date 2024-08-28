@@ -1,10 +1,12 @@
+VER = 1
 all: 
-	flex lexer.l
-	bison -d parser5.y
-	g++ parser5.tab.c lex.yy.c -o parser5 -ll
-	./parser5 
+	sudo sed -i '' '2s/.*/#include "parser$(VER).tab.h"/' lexer$(VER).l
+	flex lexer$(VER).l
+	bison -d parser$(VER).y
+	g++ parser$(VER).tab.c lex.yy.c -o parser$(VER) -ll
+	./parser$(VER) 
 
 # Clean up generated files
 clean:
 
-	rm -f parser5 parser5.tab.c parser5.tab.h lex.yy.c
+	rm -f parser parser$(VER).tab.c parser$(VER).tab.h lex.yy.c
