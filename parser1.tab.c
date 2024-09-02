@@ -110,7 +110,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "parser2.y"
+#line 1 "parser1.y"
 
 
 #include <iostream>
@@ -121,10 +121,8 @@ using namespace std;
 // Define external yylex function from Lex
 int yylex();
 void yyerror(const char *s);
-unordered_map<string,int> globals;
 unordered_map<string,vector<int> > symboltable;
 int stop_parsing = 0;
-int Ntemp = 0;
 
 
 /* Enabling traces.  */
@@ -147,12 +145,12 @@ int Ntemp = 0;
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 17 "parser2.y"
+#line 15 "parser1.y"
 {
     char *str;
 }
 /* Line 193 of yacc.c.  */
-#line 156 "parser2.tab.c"
+#line 154 "parser1.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -165,7 +163,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 169 "parser2.tab.c"
+#line 167 "parser1.tab.c"
 
 #ifdef short
 # undef short
@@ -378,18 +376,18 @@ union yyalloc
 #endif
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  4
+#define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   15
+#define YYLAST   20
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  21
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  4
+#define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  10
+#define YYNRULES  21
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  15
+#define YYNSTATES  22
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -436,23 +434,27 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     4,     6,     8,    11,    12,    15,    19,
-      23
+       0,     0,     3,     6,     7,     9,    11,    13,    15,    17,
+      19,    21,    23,    25,    27,    29,    31,    33,    35,    37,
+      39,    41
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      22,     0,    -1,    -1,    23,    -1,     6,    -1,    23,    24,
-      -1,    -1,     3,     7,    -1,    10,     5,     9,    -1,    10,
-       5,    10,    -1,     7,     5,    10,    -1
+      22,     0,    -1,    22,    23,    -1,    -1,     3,    -1,     4,
+      -1,     6,    -1,     7,    -1,     8,    -1,     9,    -1,    10,
+      -1,    11,    -1,    12,    -1,    13,    -1,    14,    -1,    15,
+      -1,    16,    -1,    17,    -1,    18,    -1,    19,    -1,    20,
+      -1,     5,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    28,    28,    30,    31,    34,    34,    35,    40,    50,
-      60
+       0,    27,    27,    28,    32,    33,    34,    35,    38,    39,
+      40,    41,    42,    43,    44,    45,    46,    47,    48,    49,
+      50,    51
 };
 #endif
 
@@ -464,7 +466,7 @@ static const char *const yytname[] =
   "$end", "error", "$undefined", "GLOBAL", "STR", "EQ", "ENDD",
   "IDENTIFIER", "F_IDENTIFIER", "NUMBER", "TEMPORARY", "LABEL", "GOTO",
   "GOTO_LABEL", "IF", "RETURN", "PARAM", "CALL", "H", "OP", "CP",
-  "$accept", "program", "globals", "globaldecl", 0
+  "$accept", "program", "token", 0
 };
 #endif
 
@@ -482,15 +484,17 @@ static const yytype_uint16 yytoknum[] =
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    21,    22,    22,    22,    23,    23,    24,    24,    24,
-      24
+       0,    21,    22,    22,    23,    23,    23,    23,    23,    23,
+      23,    23,    23,    23,    23,    23,    23,    23,    23,    23,
+      23,    23
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     1,     1,     2,     0,     2,     3,     3,
-       3
+       0,     2,     2,     0,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
+       1,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -498,54 +502,59 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       6,     4,     0,     3,     1,     0,     0,     0,     5,     7,
-       0,     0,    10,     8,     9
+       3,     0,     1,     4,     5,    21,     6,     7,     8,     9,
+      10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
+      20,     2
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,     8
+      -1,     1,    21
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -5
+#define YYPACT_NINF -1
 static const yytype_int8 yypact[] =
 {
-       2,    -5,     1,    -3,    -5,     3,    -2,     4,    -5,    -5,
-       5,    -4,    -5,    -5,    -5
+      -1,     0,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -5,    -5,    -5,    -5
+      -1,    -1,    -1
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
-#define YYTABLE_NINF -3
-static const yytype_int8 yytable[] =
+#define YYTABLE_NINF -1
+static const yytype_uint8 yytable[] =
 {
-       5,     4,    -2,    10,     6,    13,    14,     7,     1,    11,
-       9,     0,     0,     0,     0,    12
+       2,     0,     0,     3,     4,     5,     6,     7,     8,     9,
+      10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
+      20
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     0,     0,     5,     7,     9,    10,    10,     6,     5,
-       7,    -1,    -1,    -1,    -1,    10
+       0,    -1,    -1,     3,     4,     5,     6,     7,     8,     9,
+      10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
+      20
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     6,    22,    23,     0,     3,     7,    10,    24,     7,
-       5,     5,    10,     9,    10
+       0,    22,     0,     3,     4,     5,     6,     7,     8,     9,
+      10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
+      20,    23
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1360,60 +1369,100 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 31 "parser2.y"
-    { printf("Ending...\n");stop_parsing = 1;YYABORT;;}
+#line 32 "parser1.y"
+    { printf("GLOBAL: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 5:
+#line 33 "parser1.y"
+    { printf("STR: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 6:
+#line 34 "parser1.y"
+    { printf("asdf");stop_parsing = 1;YYABORT;;}
     break;
 
   case 7:
-#line 36 "parser2.y"
-    { 
-                printf("declared global: %s\n", (yyvsp[(2) - (2)].str));
-                globals[(yyvsp[(2) - (2)].str)] = 0;                              
-            ;}
+#line 35 "parser1.y"
+    { printf("IDENTIFIER: %s\n", (yyvsp[(1) - (1)].str)); 
+                        vector<int> aa;
+                        symboltable[(yyvsp[(1) - (1)].str)] = aa; ;}
     break;
 
   case 8:
-#line 41 "parser2.y"
-    {
-            if(symboltable.find((yyvsp[(1) - (3)].str))==symboltable.end()){
-                vector<int> a; a.push_back(stoi((yyvsp[(3) - (3)].str)));
-                symboltable[(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                symboltable[(yyvsp[(1) - (3)].str)].push_back(stoi((yyvsp[(3) - (3)].str)));
-            }
-        ;}
+#line 38 "parser1.y"
+    { printf("F_IDENTIFIER: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 9:
-#line 51 "parser2.y"
-    {
-            if(symboltable.find((yyvsp[(1) - (3)].str))==symboltable.end()){
-                vector<int> a; a.push_back(symboltable[(yyvsp[(3) - (3)].str)].back());
-                symboltable[(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                symboltable[(yyvsp[(1) - (3)].str)].push_back(symboltable[(yyvsp[(3) - (3)].str)].back());
-            }
-        ;}
+#line 39 "parser1.y"
+    { printf("NUMBER: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 10:
-#line 61 "parser2.y"
-    {
-            if(symboltable.find((yyvsp[(1) - (3)].str))==symboltable.end()){
-                vector<int> a; a.push_back(symboltable[(yyvsp[(3) - (3)].str)].back());
-                symboltable[(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                symboltable[(yyvsp[(1) - (3)].str)].push_back(symboltable[(yyvsp[(3) - (3)].str)].back());
-            }
-        ;}
+#line 40 "parser1.y"
+    { printf("TEMPORARY: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 11:
+#line 41 "parser1.y"
+    { printf("LABEL: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 12:
+#line 42 "parser1.y"
+    { printf("GOTO: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 13:
+#line 43 "parser1.y"
+    { printf("GOTO_LABEL: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 14:
+#line 44 "parser1.y"
+    { printf("IF: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 15:
+#line 45 "parser1.y"
+    { printf("RETURN: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 16:
+#line 46 "parser1.y"
+    { printf("PARAM: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 17:
+#line 47 "parser1.y"
+    { printf("CALL: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 18:
+#line 48 "parser1.y"
+    { printf("H: %s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 19:
+#line 49 "parser1.y"
+    { printf("%s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 20:
+#line 50 "parser1.y"
+    { printf("%s\n", (yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 21:
+#line 51 "parser1.y"
+    { printf("%s\n", (yyvsp[(1) - (1)].str));;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1417 "parser2.tab.c"
+#line 1466 "parser1.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1627,17 +1676,13 @@ yyreturn:
 }
 
 
-#line 104 "parser2.y"
+#line 60 "parser1.y"
 
 
 // Main function to start the parser
 int main() {
         while (!stop_parsing) {
         yyparse();
-    }
-    for (const auto& pair : globals) {
-        std::cout << "global variable: " << pair.first << " = " << pair.second;
-       std::cout << std::endl;
     }
     for (const auto& pair : symboltable) {
         std::cout << "Key: " << pair.first << " -> Values: ";

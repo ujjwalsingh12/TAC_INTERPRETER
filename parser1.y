@@ -17,7 +17,7 @@ int stop_parsing = 0;
 }
 
 // Define tokens
-%token <str> EQ ENDDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
+%token <str> GLOBAL STR EQ ENDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
 
 %%
 
@@ -29,8 +29,9 @@ program:
     ;
 
 token:
-    TEMPORARY  { printf("TEMPORARY: %s\n", $1); }
-    | ENDDD  { printf("asdf");stop_parsing = 1;YYABORT;}
+     GLOBAL  { printf("GLOBAL: %s\n", $1); }
+    | STR      { printf("STR: %s\n", $1); }
+    | ENDD  { printf("asdf");stop_parsing = 1;YYABORT;}
     |IDENTIFIER   { printf("IDENTIFIER: %s\n", $1); 
                         vector<int> aa;
                         symboltable[$1] = aa; }
@@ -55,6 +56,7 @@ token:
     // | '/'           { printf("SLASH: %c\n", $1); }
     ;
 
+
 %%
 
 // Main function to start the parser
@@ -69,7 +71,7 @@ int main() {
         }
         std::cout << std::endl;
     }
-    return 1;
+    return 0;
 }
 
 // Error handling function

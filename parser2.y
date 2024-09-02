@@ -8,8 +8,10 @@ using namespace std;
 // Define external yylex function from Lex
 int yylex();
 void yyerror(const char *s);
+unordered_map<string,int> globals;
 unordered_map<string,vector<int> > symboltable;
 int stop_parsing = 0;
+int Ntemp = 0;
 %}
 
 %union {
@@ -17,20 +19,59 @@ int stop_parsing = 0;
 }
 
 // Define tokens
-%token <str> EQ ENDDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
+%token <str> GLOBAL STR EQ ENDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
 
 %%
 
 // Grammar rules and actions
 
 program:
-    program token
-    | /* empty */
+
+    | globals //functions mainf
+    | ENDD  { printf("Ending...\n");stop_parsing = 1;YYABORT;}
     ;
 
-token:
-    | temp
-    | ENDDD  { printf("asdf");stop_parsing = 1;YYABORT;}
+globals : globals globaldecl | ;
+globaldecl: GLOBAL IDENTIFIER 
+            { 
+                printf("declared global: %s\n", $2);
+                globals[$2] = 0;                              
+            } //GLOBAL VARIABLE INITIALIZED 
+        | TEMPORARY EQ NUMBER 
+        {
+            if(symboltable.find($1)==symboltable.end()){
+                vector<int> a; a.push_back(stoi($3));
+                symboltable[$1] = a;
+            }
+            else{
+                symboltable[$1].push_back(stoi($3));
+            }
+        }
+        | TEMPORARY EQ TEMPORARY 
+        {
+            if(symboltable.find($1)==symboltable.end()){
+                vector<int> a; a.push_back(symboltable[$3].back());
+                symboltable[$1] = a;
+            }
+            else{
+                symboltable[$1].push_back(symboltable[$3].back());
+            }
+        }
+        | IDENTIFIER EQ TEMPORARY 
+        {
+            if(symboltable.find($1)==symboltable.end()){
+                vector<int> a; a.push_back(symboltable[$3].back());
+                symboltable[$1] = a;
+            }
+            else{
+                symboltable[$1].push_back(symboltable[$3].back());
+            }
+        }
+        ; 
+
+token: 
+    STR      { printf("STR: %s\n", $1); }
+    
     |IDENTIFIER   { printf("IDENTIFIER: %s\n", $1); 
                         vector<int> aa;
                         symboltable[$1] = aa; }
@@ -54,14 +95,22 @@ token:
     // | '*'           { printf("STAR: %c\n", $1); }
     // | '/'           { printf("SLASH: %c\n", $1); }
     ;
-temp: TEMPORARY EQ { printf("TEMPORARY: %s eq= \n", $1);  }  
 
+globalini: TEMPORARY EQ NUMBER IDENTIFIER EQ TEMPORARY 
+{ 
+    printf("initialize: %s\n = %d", $4,stoi($3));
+    // globals[$2] = 0;                              
+} //GLOBAL VARIABLE INITIALIZED 
 %%
 
 // Main function to start the parser
 int main() {
         while (!stop_parsing) {
         yyparse();
+    }
+    for (const auto& pair : globals) {
+        std::cout << "global variable: " << pair.first << " = " << pair.second;
+       std::cout << std::endl;
     }
     for (const auto& pair : symboltable) {
         std::cout << "Key: " << pair.first << " -> Values: ";
@@ -70,7 +119,7 @@ int main() {
         }
         std::cout << std::endl;
     }
-    return 1;
+    return 0;
 }
 
 // Error handling function
