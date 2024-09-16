@@ -9,7 +9,7 @@ using namespace std;
 int yylex();
 void yyerror(const char *s);
 unordered_map<string,int> globals;
-unordered_map<string,vector<string> > functions;
+unordered_map<string,int > functions;
 unordered_map<string,vector<int> > symboltable;
 int stop_parsing = 0;
 int Ntemp = 0;
@@ -27,13 +27,15 @@ int Ntemp = 0;
 // Grammar rules and actions
 
 program:
-    | token program
-    | token 
-    // | globals functions // mainfucntion
-    // | ENDD  { printf("Ending...\n");stop_parsing = 1;YYABORT;}
+    // | token program
+    // | token 
+    | globals // mainfucntion
+    | functions program
+    // | token program 
+    | ENDD  { printf("Ending...\n");stop_parsing = 1;YYABORT;}
     ;
 
-globals : globals globaldecl | ;
+globals : {printf("global begin\n");} globaldecl globals {printf("global end\n");} | ;
 globaldecl: GLOBAL IDENTIFIER 
             { 
                 printf("declared global: %s\n", $2);
@@ -71,16 +73,18 @@ globaldecl: GLOBAL IDENTIFIER
         }
         ; 
 
-// functions : functions function | ;
-// function : LABEL fdata ;
+functions : {printf("funtion begins\n");} F_IDENTIFIER {functions[$2]=4;} tokens RETURN {printf("fucntion ends\n");} | ;
+tokens : token tokens | ;
+// functions : functions function {printf("here\n");} | ;
+function : LABEL fdata ;
 
-// fdata : params statements RETURN ;
+fdata : params statements RETURN ;
 
-// params : paramdef params | ;
+params : paramdef params | ;
 
-// paramdef : IDENTIFIER EQ PARAM { printf("PARAM: %s %s %s\n", $1,$2,$3); };
+paramdef : IDENTIFIER EQ PARAM { printf("PARAM: %s %s %s\n", $1,$2,$3); };
 
-// statements : RETVAL EQ IDENTIFIER | ;
+statements : RETVAL EQ IDENTIFIER | ;
 
 
 
@@ -95,11 +99,11 @@ token:
     |F_IDENTIFIER   { printf("F_IDENTIFIER: %s\n", $1); }
     | NUMBER      { printf("NUMBER: %s\n", $1); }
     | TEMPORARY   { printf("TEMPORARY: %s\n", $1); }
-    | LABEL       { printf("LABEL: %s\n", $1); }
+    // | LABEL       { printf("LABEL: %s\n", $1); }
     | GOTO        { printf("GOTO: %s\n", $1); }
 	| GOTO_LABEL  { printf("GOTO_LABEL: %s\n", $1); }
     | IF          { printf("IF: %s\n", $1); }
-    | RETURN      { printf("RETURN: %s\n", $1); }
+    // | RETURN      { printf("RETURN: %s\n", $1); }
     | PARAM       { printf("PARAM: %s\n", $1); }
     | CALL        { printf("CALL: %s\n", $1); }
 	| H 			{ printf("H: %s\n", $1); }
@@ -136,6 +140,10 @@ int main() {
             std::cout << value << " ";
         }
         std::cout << std::endl;
+    }
+  for (const auto& pair : functions) {
+        std::cout << "function name: " << pair.first << " = " << pair.second;
+       std::cout << std::endl;
     }
     return 0;
 }
