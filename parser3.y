@@ -4,21 +4,28 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <sstream>
 using namespace std;
 // Define external yylex function from Lex
 int yylex();
 void yyerror(const char *s);
 unordered_map<string,int> globals;
 unordered_map<string,int > functions;
+unordered_map<int,string > functioncode;
 unordered_map<string,vector<int> > symboltable;
 unordered_map<int,unordered_map<string,vector<int> > > fsymboltable;
+int retval = 0;
+vector<int> PARAMS(100,0);
 int NFUNC = -1;
 int stop_parsing = 0;
 int Ntemp = 0;
 
+
+
 void createfunc(string fun){
     NFUNC++;
     functions[fun] = NFUNC;
+    functioncode[NFUNC] = "";
     unordered_map<string,vector<int> > table;
     fsymboltable[NFUNC] = table;
     
@@ -40,7 +47,7 @@ void createfunc(string fun){
 program:
     // | token program
     // | token 
-    | globals // mainfucntion
+    | globals program// mainfucntion
     | functions program
     // | token program 
     | ENDD  { printf("Ending...\n");stop_parsing = 1;YYABORT;}
@@ -85,7 +92,7 @@ globaldecl: GLOBAL IDENTIFIER
         ; 
 
 functions : {printf("funtion begins\n");} F_IDENTIFIER {createfunc($2);} tokens RETURN {printf("fucntion ends\n");} | ;
-tokens : token tokens | OP fundecls CP tokens | ;
+tokens : token tokens | OP decls CP tokens | ;
 // functions : functions function {printf("here\n");} | ;
 // function : LABEL fdata ;
 
@@ -97,7 +104,39 @@ tokens : token tokens | OP fundecls CP tokens | ;
 
 // statements : RETVAL EQ IDENTIFIER | ;
 
+decls : paramdecls fundecls retvaldecl | ;
 
+paramdecls : paramdecl paramdecls |;
+
+retvaldecl : RETVAL EQ NUMBER 
+        {
+            retval = stoi($3);
+        }
+        | RETVAL EQ TEMPORARY 
+        {
+            retval = fsymboltable[NFUNC][$3].back();
+        }
+        | RETVAL EQ IDENTIFIER 
+        {
+            retval = fsymboltable[NFUNC][$3].back();
+        }
+        | ; 
+
+paramdecl : IDENTIFIER EQ PARAM 
+        {
+            if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
+                string s = $3;
+                int i = PARAMS[stoi(s.substr(5))];
+                vector<int> a; a.push_back(i);
+                fsymboltable[NFUNC][$1] = a;
+            }
+            else{
+                string s = $3;
+                int i = PARAMS[stoi(s.substr(5))];
+                fsymboltable[NFUNC][$1].push_back(i);
+            }
+        }
+        ; 
 
 fundecls : fundecl fundecls | ;
 
@@ -122,6 +161,16 @@ fundecl: TEMPORARY EQ NUMBER
             }
         }
         | IDENTIFIER EQ TEMPORARY 
+        {
+            if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
+                vector<int> a; a.push_back(fsymboltable[NFUNC][$3].back());
+                fsymboltable[NFUNC][$1] = a;
+            }
+            else{
+                fsymboltable[NFUNC][$1].push_back(fsymboltable[NFUNC][$3].back());
+            }
+        }
+        | TEMPORARY EQ IDENTIFIER 
         {
             if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
                 vector<int> a; a.push_back(fsymboltable[NFUNC][$3].back());
@@ -174,30 +223,44 @@ globalini: TEMPORARY EQ NUMBER IDENTIFIER EQ TEMPORARY
 
 // Main function to start the parser
 int main() {
+    std::stringstream res;
         while (!stop_parsing) {
         yyparse();
     }
+    res << " #include<iostream> using namespace std; " ;
     for (const auto& pair : globals) {
+        
         std::cout << "global variable: " << pair.first << " = " << pair.second;
        std::cout << std::endl;
     }
     for (const auto& pair : symboltable) {
+        res << "int " << pair.first << " = " ;
         std::cout << "Key: " << pair.first << " -> Values: ";
+        int g = 0;
         for (int value : pair.second) {
             std::cout << value << " ";
+            g = value;
         }
+        res << g << ";" << endl;
         std::cout << std::endl;
     }
-  for (const auto& pair : functions) {
-        std::cout << "function name: " << pair.first << " = " << pair.second<< endl;
-    for (const auto& pair : fsymboltable[pair.second]) {
+  for (const auto& pairc : functions) {
+        std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl;
+        res << "int " << pairc.first << "() {" << endl;
+    for (const auto& pair : fsymboltable[pairc.second]) {
+        res << "int " << pair.first << " = " ;
         std::cout << "Key: " << pair.first << " -> Values: ";
+        int g = 0;
         for (int value : pair.second) {
             std::cout << value << " ";
+            g = value;
         }
+        res << g << ";" << endl;
         std::cout << std::endl;
     }
     }
+    string ress = res.str();
+    cout << ress;
     return 0;
 }
 

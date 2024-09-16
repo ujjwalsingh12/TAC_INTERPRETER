@@ -24,7 +24,7 @@ call          { yylval.str = strdup(yytext);return CALL; }
 [a-zA-Z_][a-zA-Z_0-9]*: { yylval.str = strdup(yytext); return F_IDENTIFIER; }  // Identifiers for variables, functions
 [a-zA-Z_][a-zA-Z_0-9]* { yylval.str = strdup(yytext); return IDENTIFIER; }  // Identifiers for variables, functions
 [0-9]+         { yylval.str = strdup(yytext); return NUMBER; }       // Numeric constants
-[+\-*/]       { yylval.str = strdup(yytext); return H; }      // Operators and assignment
+[+\-*/<>]       { yylval.str = strdup(yytext); return H; }      // Operators and assignment
 .              { printf("Unexpected character: %s\n", yytext); }
 %%
 
