@@ -1,4 +1,4 @@
-VER = 2
+VER = 3
 all: 
 	flex lexer$(VER).l
 	bison -d parser$(VER).y
