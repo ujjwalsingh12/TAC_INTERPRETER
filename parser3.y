@@ -11,8 +11,19 @@ void yyerror(const char *s);
 unordered_map<string,int> globals;
 unordered_map<string,int > functions;
 unordered_map<string,vector<int> > symboltable;
+unordered_map<int,unordered_map<string,vector<int> > > fsymboltable;
+int NFUNC = -1;
 int stop_parsing = 0;
 int Ntemp = 0;
+
+void createfunc(string fun){
+    NFUNC++;
+    functions[fun] = NFUNC;
+    unordered_map<string,vector<int> > table;
+    fsymboltable[NFUNC] = table;
+    
+}
+
 %}
 
 %union {
@@ -73,18 +84,54 @@ globaldecl: GLOBAL IDENTIFIER
         }
         ; 
 
-functions : {printf("funtion begins\n");} F_IDENTIFIER {functions[$2]=4;} tokens RETURN {printf("fucntion ends\n");} | ;
-tokens : token tokens | ;
+functions : {printf("funtion begins\n");} F_IDENTIFIER {createfunc($2);} tokens RETURN {printf("fucntion ends\n");} | ;
+tokens : token tokens | OP fundecls CP tokens | ;
 // functions : functions function {printf("here\n");} | ;
-function : LABEL fdata ;
+// function : LABEL fdata ;
 
-fdata : params statements RETURN ;
+// fdata : params statements RETURN ;
 
-params : paramdef params | ;
+// params : paramdef params | ;
 
-paramdef : IDENTIFIER EQ PARAM { printf("PARAM: %s %s %s\n", $1,$2,$3); };
+// paramdef : IDENTIFIER EQ PARAM { printf("PARAM: %s %s %s\n", $1,$2,$3); };
 
-statements : RETVAL EQ IDENTIFIER | ;
+// statements : RETVAL EQ IDENTIFIER | ;
+
+
+
+fundecls : fundecl fundecls | ;
+
+fundecl: TEMPORARY EQ NUMBER 
+        {
+            if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
+                vector<int> a; a.push_back(stoi($3));
+                fsymboltable[NFUNC][$1] = a;
+            }
+            else{
+                fsymboltable[NFUNC][$1].push_back(stoi($3));
+            }
+        }
+        | TEMPORARY EQ TEMPORARY 
+        {
+            if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
+                vector<int> a; a.push_back(fsymboltable[NFUNC][$3].back());
+                fsymboltable[NFUNC][$1] = a;
+            }
+            else{
+                fsymboltable[NFUNC][$1].push_back(fsymboltable[NFUNC][$3].back());
+            }
+        }
+        | IDENTIFIER EQ TEMPORARY 
+        {
+            if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
+                vector<int> a; a.push_back(fsymboltable[NFUNC][$3].back());
+                fsymboltable[NFUNC][$1] = a;
+            }
+            else{
+                fsymboltable[NFUNC][$1].push_back(fsymboltable[NFUNC][$3].back());
+            }
+        }
+        ; 
 
 
 
@@ -99,7 +146,7 @@ token:
     |F_IDENTIFIER   { printf("F_IDENTIFIER: %s\n", $1); }
     | NUMBER      { printf("NUMBER: %s\n", $1); }
     | TEMPORARY   { printf("TEMPORARY: %s\n", $1); }
-    // | LABEL       { printf("LABEL: %s\n", $1); }
+    | LABEL       { printf("LABEL: %s\n", $1); }
     | GOTO        { printf("GOTO: %s\n", $1); }
 	| GOTO_LABEL  { printf("GOTO_LABEL: %s\n", $1); }
     | IF          { printf("IF: %s\n", $1); }
@@ -107,8 +154,8 @@ token:
     | PARAM       { printf("PARAM: %s\n", $1); }
     | CALL        { printf("CALL: %s\n", $1); }
 	| H 			{ printf("H: %s\n", $1); }
-	| OP 			{ printf("%s\n", $1); }
-	| CP			{ printf("%s\n", $1); }
+	// | OP 			{ printf("%s\n", $1); }
+	// | CP			{ printf("%s\n", $1); }
     | EQ            { printf("%s\n", $1);}
     | RETVAL        { printf("RETVAL: %s\n", $1); }
     // | '='           { printf("EQUALS: %c\n", $1); }
@@ -142,8 +189,14 @@ int main() {
         std::cout << std::endl;
     }
   for (const auto& pair : functions) {
-        std::cout << "function name: " << pair.first << " = " << pair.second;
-       std::cout << std::endl;
+        std::cout << "function name: " << pair.first << " = " << pair.second<< endl;
+    for (const auto& pair : fsymboltable[pair.second]) {
+        std::cout << "Key: " << pair.first << " -> Values: ";
+        for (int value : pair.second) {
+            std::cout << value << " ";
+        }
+        std::cout << std::endl;
+    }
     }
     return 0;
 }
