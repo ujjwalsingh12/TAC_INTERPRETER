@@ -138,7 +138,7 @@ decls 	:   paramdecls fundecls retvaldecl
 			| ; 
 //--------------------------	
 paramdecls 	: paramdecl paramdecls 
-			| paramdecl ; 
+			| ; 
 //--------------------------
 paramdecl 	: IDENTIFIER EQ PARAM {fcreateparam(NFUNC,$1);}
             ;
@@ -149,8 +149,8 @@ fundecls 	: fundecl fundecls
 fundecl 	: assignmt
 			| func_call
 			| conditional
-			| GOTO GOTO_LABEL
-			| LABEL
+			| GOTO GOTO_LABEL {cout << $1 << " " << $2 << endl;}
+			| LABEL {cout << $1 << " " <<endl;}
             ;
 //--------------------------
 assignmt    : direct
@@ -161,8 +161,6 @@ direct      : IDENTIFIER EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
 			| TEMPORARY  EQ NUMBER {fcreatevarn(NFUNC,$1,$3);}
 			| TEMPORARY	 EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
 			| TEMPORARY  EQ IDENTIFIER {fcreatevar(NFUNC,$1,$3);}
-			| TEMPORARY  EQ STR
-			| PARAM      EQ TEMPORARY
 			;
 //--------------------------
 indirect    : TEMPORARY EQ condition
@@ -190,12 +188,10 @@ func_call   : func_parms CALL F_IDENTIFIER
 }
 			;
 //--------------------------
-func_parms  : func_parm func_parms
-            | func_parm
-            ;
+func_parms  : func_parm func_parms ;
 //--------------------------
-func_parm   : PARAM      EQ TEMPORARY {call_params.push($3);}
-			| PARAM      EQ IDENTIFIER {call_params.push($3);}
+func_parm   : PARAM      EQ TEMPORARY {call_params.push($3);printf("asd");}
+			| PARAM      EQ IDENTIFIER {call_params.push($3);printf("asd");}
 			| ;
 //--------------------------
 retvaldecl 	: RETVAL EQ TEMPORARY 
