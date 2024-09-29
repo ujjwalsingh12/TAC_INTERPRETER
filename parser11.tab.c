@@ -112,7 +112,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "parser9.y"
+#line 1 "parser11.y"
 
 
 
@@ -134,7 +134,7 @@ unordered_map<int,string > functioncode;
 
 unordered_map<string,vector<int> > symboltable;
 
-unordered_map<int,unordered_map<string,vector<int> > > fsymboltable;
+unordered_map<int,unordered_map<string,vector<string> > > fsymboltable;
 unordered_map<int,vector<string> > fparamtable;
 queue<string> call_params;
 
@@ -156,7 +156,7 @@ void createfunc(string fun){
     NFUNC++;
     functions[fun] = NFUNC; // THIS WILL STORE THE ID OF FUNCTION
     functioncode[NFUNC] = ""; //
-    unordered_map<string,vector<int> > table;
+    unordered_map<string,vector<string> > table;
     fsymboltable[NFUNC] = table;
     vector<string> tt;
     fparamtable[NFUNC] = tt;
@@ -186,30 +186,31 @@ void createvar(string x,string y){
     }
 }
 void fcreatevar(int id,string x,string y){
-        if(fsymboltable[id].find(x)==fsymboltable[id].end()){
+        if(fsymboltable[id].find(x)==fsymboltable[id].end() ){
         s = s + " int " + x + " = " + y +";\n";
-        vector<int> a; a.push_back(fsymboltable[id][y].back());
+        vector<string> a; a.push_back(y);
         fsymboltable[id][x] = a;
     }
     else{
         s = s + x + " = " + y +";\n";
-        fsymboltable[id][x].push_back(fsymboltable[id][y].back());
+        fsymboltable[id][x].push_back(y);
     }
 }
 void fcreatevarn(int id,string x,string y){
      if(fsymboltable[id].find(x)==fsymboltable[id].end()){
                 s = s + " int " + x + " = " + y +";\n";
-                vector<int> a; a.push_back(stoi(y));
+                vector<string> a; a.push_back(y);
                 fsymboltable[id][x] = a;
             }
             else{
                 s = s + x + " = " + y +";\n";
-                fsymboltable[id][x].push_back(stoi(y));
+                fsymboltable[id][x].push_back(y);
             }
 }
 void fcreateparam(int id,string x){
         // s = s + x + " = " + y +",\n";
         string g = "int "+x;
+        
         fparamtable[id].push_back(g);
 }
 
@@ -235,12 +236,12 @@ void fcreateparam(int id,string x){
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 103 "parser9.y"
+#line 104 "parser11.y"
 {
     char *str;
 }
 /* Line 193 of yacc.c.  */
-#line 244 "parser9.tab.c"
+#line 245 "parser11.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -253,7 +254,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 257 "parser9.tab.c"
+#line 258 "parser11.tab.c"
 
 #ifdef short
 # undef short
@@ -553,11 +554,11 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   118,   118,   120,   121,   124,   125,   127,   128,   129,
-     130,   133,   133,   134,   136,   137,   139,   140,   142,   145,
-     146,   148,   149,   150,   151,   152,   155,   156,   159,   160,
-     161,   162,   163,   164,   167,   170,   171,   172,   173,   176,
-     179,   192,   193,   196,   197,   198,   200,   201
+       0,   119,   119,   121,   122,   125,   126,   128,   129,   130,
+     131,   134,   134,   135,   137,   138,   140,   141,   143,   146,
+     147,   149,   150,   151,   152,   153,   156,   157,   160,   161,
+     162,   163,   164,   165,   168,   171,   172,   173,   174,   177,
+     180,   193,   194,   197,   198,   199,   201,   202
 };
 #endif
 
@@ -1508,57 +1509,57 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 121 "parser9.y"
+#line 122 "parser11.y"
     { printf("Ending...\n");stop_parsing = 1;YYABORT;;}
     break;
 
   case 8:
-#line 128 "parser9.y"
+#line 129 "parser11.y"
     {createvarn((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 9:
-#line 129 "parser9.y"
+#line 130 "parser11.y"
     {createvar((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 10:
-#line 130 "parser9.y"
+#line 131 "parser11.y"
     {createvar((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 11:
-#line 133 "parser9.y"
+#line 134 "parser11.y"
     {createfunc((yyvsp[(1) - (1)].str));;}
     break;
 
   case 18:
-#line 142 "parser9.y"
+#line 143 "parser11.y"
     {fcreateparam(NFUNC,(yyvsp[(1) - (3)].str));;}
     break;
 
   case 28:
-#line 159 "parser9.y"
+#line 160 "parser11.y"
     {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 29:
-#line 160 "parser9.y"
+#line 161 "parser11.y"
     {fcreatevarn(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 30:
-#line 161 "parser9.y"
+#line 162 "parser11.y"
     {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 31:
-#line 162 "parser9.y"
+#line 163 "parser11.y"
     {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 40:
-#line 180 "parser9.y"
+#line 181 "parser11.y"
     {
     string caller = (yyvsp[(3) - (3)].str) + '(';
     while(!call_params.empty()){
@@ -1572,18 +1573,18 @@ yyreduce:
     break;
 
   case 43:
-#line 196 "parser9.y"
+#line 197 "parser11.y"
     {call_params.push((yyvsp[(3) - (3)].str));;}
     break;
 
   case 44:
-#line 197 "parser9.y"
+#line 198 "parser11.y"
     {call_params.push((yyvsp[(3) - (3)].str));;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1587 "parser9.tab.c"
+#line 1588 "parser11.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1797,7 +1798,7 @@ yyreturn:
 }
 
 
-#line 370 "parser9.y"
+#line 371 "parser11.y"
 
 
 // Main function to start the parser
@@ -1834,8 +1835,8 @@ int main() {
     for (const auto& pair : fsymboltable[pairc.second]) {
         res << "int " << pair.first << " = " ;
         std::cout << "Key: " << pair.first << " -> Values: ";
-        int g = 0;
-        for (int value : pair.second) {
+        string g = "";
+        for (string value : pair.second) {
             std::cout << value << " ";
             g = value;
         }

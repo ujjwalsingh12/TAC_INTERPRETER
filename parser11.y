@@ -19,7 +19,7 @@ unordered_map<int,string > functioncode;
 
 unordered_map<string,vector<int> > symboltable;
 
-unordered_map<int,unordered_map<string,vector<int> > > fsymboltable;
+unordered_map<int,unordered_map<string,vector<string> > > fsymboltable;
 unordered_map<int,vector<string> > fparamtable;
 queue<string> call_params;
 
@@ -41,7 +41,7 @@ void createfunc(string fun){
     NFUNC++;
     functions[fun] = NFUNC; // THIS WILL STORE THE ID OF FUNCTION
     functioncode[NFUNC] = ""; //
-    unordered_map<string,vector<int> > table;
+    unordered_map<string,vector<string> > table;
     fsymboltable[NFUNC] = table;
     vector<string> tt;
     fparamtable[NFUNC] = tt;
@@ -73,23 +73,23 @@ void createvar(string x,string y){
 void fcreatevar(int id,string x,string y){
         if(fsymboltable[id].find(x)==fsymboltable[id].end() ){
         s = s + " int " + x + " = " + y +";\n";
-        vector<int> a; a.push_back(fsymboltable[id][y].back());
+        vector<string> a; a.push_back(y);
         fsymboltable[id][x] = a;
     }
     else{
         s = s + x + " = " + y +";\n";
-        fsymboltable[id][x].push_back(fsymboltable[id][y].back());
+        fsymboltable[id][x].push_back(y);
     }
 }
 void fcreatevarn(int id,string x,string y){
      if(fsymboltable[id].find(x)==fsymboltable[id].end()){
                 s = s + " int " + x + " = " + y +";\n";
-                vector<int> a; a.push_back(stoi(y));
+                vector<string> a; a.push_back(y);
                 fsymboltable[id][x] = a;
             }
             else{
                 s = s + x + " = " + y +";\n";
-                fsymboltable[id][x].push_back(stoi(y));
+                fsymboltable[id][x].push_back(y);
             }
 }
 void fcreateparam(int id,string x){
@@ -404,8 +404,8 @@ int main() {
     for (const auto& pair : fsymboltable[pairc.second]) {
         res << "int " << pair.first << " = " ;
         std::cout << "Key: " << pair.first << " -> Values: ";
-        int g = 0;
-        for (int value : pair.second) {
+        string g = "";
+        for (string value : pair.second) {
             std::cout << value << " ";
             g = value;
         }
