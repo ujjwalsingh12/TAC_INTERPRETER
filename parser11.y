@@ -175,24 +175,29 @@ condition   : IDENTIFIER
 conditional : IF OP TEMPORARY CP GOTO GOTO_LABEL
             ;
 //--------------------------
-func_call   : func_parms CALL F_IDENTIFIER 
+func_call   : func_parms caller
+//--------------------------
+caller : CALL IDENTIFIER 
 {
-    string caller = $3 + '(';
+    string callers = "";
+    callers = $2;
+    callers = callers + "(";
     while(!call_params.empty()){
         string par = call_params.front();
         call_params.pop();
-        caller = caller + par + ",";
+        callers = callers + par + ",";
     }
-    caller[caller.size()-1] = ')';
-    cout << caller << endl;
+    callers[callers.size()-1] = ')';
+    callers = callers + ";";
+    cout << callers << endl;
 }
 			;
 //--------------------------
-func_parms  : func_parm func_parms ;
+func_parms  : func_parm func_parms | func_parm ;
 //--------------------------
-func_parm   : PARAM      EQ TEMPORARY {call_params.push($3);printf("asd");}
-			| PARAM      EQ IDENTIFIER {call_params.push($3);printf("asd");}
-			| ;
+func_parm   : PARAM      EQ TEMPORARY {call_params.push($3);}
+			| PARAM      EQ IDENTIFIER {call_params.push($3);}
+            | ;
 //--------------------------
 retvaldecl 	: RETVAL EQ TEMPORARY 
 			| RETVAL EQ IDENTIFIER
