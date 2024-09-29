@@ -66,86 +66,68 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     RETVAL = 258,
-     GLOBAL = 259,
-     STR = 260,
-     EQ = 261,
-     ENDD = 262,
-     IDENTIFIER = 263,
-     F_IDENTIFIER = 264,
-     NUMBER = 265,
-     TEMPORARY = 266,
-     LABEL = 267,
-     GOTO = 268,
-     GOTO_LABEL = 269,
-     IF = 270,
-     RETURN = 271,
-     PARAM = 272,
-     CALL = 273,
-     H = 274,
-     OP = 275,
-     CP = 276
+     NEWLINE = 258,
+     RETVAL = 259,
+     GLOBAL = 260,
+     STR = 261,
+     EQ = 262,
+     ENDD = 263,
+     IDENTIFIER = 264,
+     F_IDENTIFIER = 265,
+     NUMBER = 266,
+     TEMPORARY = 267,
+     LABEL = 268,
+     GOTO = 269,
+     GOTO_LABEL = 270,
+     IF = 271,
+     RETURN = 272,
+     PARAM = 273,
+     CALL = 274,
+     H = 275,
+     OP = 276,
+     CP = 277
    };
 #endif
 /* Tokens.  */
-#define RETVAL 258
-#define GLOBAL 259
-#define STR 260
-#define EQ 261
-#define ENDD 262
-#define IDENTIFIER 263
-#define F_IDENTIFIER 264
-#define NUMBER 265
-#define TEMPORARY 266
-#define LABEL 267
-#define GOTO 268
-#define GOTO_LABEL 269
-#define IF 270
-#define RETURN 271
-#define PARAM 272
-#define CALL 273
-#define H 274
-#define OP 275
-#define CP 276
+#define NEWLINE 258
+#define RETVAL 259
+#define GLOBAL 260
+#define STR 261
+#define EQ 262
+#define ENDD 263
+#define IDENTIFIER 264
+#define F_IDENTIFIER 265
+#define NUMBER 266
+#define TEMPORARY 267
+#define LABEL 268
+#define GOTO 269
+#define GOTO_LABEL 270
+#define IF 271
+#define RETURN 272
+#define PARAM 273
+#define CALL 274
+#define H 275
+#define OP 276
+#define CP 277
 
 
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "parser3.y"
+#line 1 "parser6.y"
 
 
 #include <iostream>
 #include <vector>
 #include <string>
 #include <unordered_map>
-#include <sstream>
 using namespace std;
 // Define external yylex function from Lex
 int yylex();
 void yyerror(const char *s);
-unordered_map<string,int> globals;
-unordered_map<string,int > functions;
-unordered_map<int,string > functioncode;
 unordered_map<string,vector<int> > symboltable;
-unordered_map<int,unordered_map<string,vector<int> > > fsymboltable;
-int retval = 0;
-vector<int> PARAMS(100,0);
-int NFUNC = -1;
 int stop_parsing = 0;
-int Ntemp = 0;
-
-
-
-void createfunc(string fun){
-    NFUNC++;
-    functions[fun] = NFUNC;
-    functioncode[NFUNC] = "";
-    unordered_map<string,vector<int> > table;
-    fsymboltable[NFUNC] = table;
-    
-}
-
+string s="";
 
 
 /* Enabling traces.  */
@@ -168,12 +150,12 @@ void createfunc(string fun){
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 36 "parser3.y"
+#line 16 "parser6.y"
 {
     char *str;
 }
 /* Line 193 of yacc.c.  */
-#line 177 "parser3.tab.c"
+#line 159 "parser6.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -186,7 +168,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 190 "parser3.tab.c"
+#line 172 "parser6.tab.c"
 
 #ifdef short
 # undef short
@@ -399,22 +381,22 @@ union yyalloc
 #endif
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  6
+#define YYFINAL  23
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   56
+#define YYLAST   22
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  22
+#define YYNTOKENS  23
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  16
+#define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  47
+#define YYNRULES  24
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  68
+#define YYNSTATES  25
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   276
+#define YYMAXUTOK   277
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -449,7 +431,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21
+      15,    16,    17,    18,    19,    20,    21,    22
 };
 
 #if YYDEBUG
@@ -457,39 +439,27 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     4,     8,    10,    11,    15,    17,    20,
-      24,    28,    32,    33,    34,    40,    41,    44,    49,    50,
-      54,    55,    58,    59,    63,    67,    71,    72,    76,    79,
-      80,    84,    88,    92,    96,    98,   100,   102,   104,   106,
-     108,   110,   112,   114,   116,   118,   120,   122
+       0,     0,     3,     4,     7,     9,    11,    13,    15,    17,
+      19,    21,    23,    25,    27,    29,    31,    33,    35,    37,
+      39,    41,    43,    45,    47
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      23,     0,    -1,    -1,    24,    27,    23,    -1,     7,    -1,
-      -1,    25,    26,    24,    -1,    16,    -1,     4,     8,    -1,
-      11,     6,    10,    -1,    11,     6,    11,    -1,     8,     6,
-      11,    -1,    -1,    -1,    28,     9,    29,    30,    16,    -1,
-      -1,    37,    30,    -1,    20,    31,    21,    30,    -1,    -1,
-      32,    35,    33,    -1,    -1,    34,    32,    -1,    -1,     3,
-       6,    10,    -1,     3,     6,    11,    -1,     3,     6,     8,
-      -1,    -1,     8,     6,    17,    -1,    36,    35,    -1,    -1,
-      11,     6,    10,    -1,    11,     6,    11,    -1,     8,     6,
-      11,    -1,    11,     6,     8,    -1,     5,    -1,     8,    -1,
-       9,    -1,    10,    -1,    11,    -1,    12,    -1,    13,    -1,
-      14,    -1,    15,    -1,    17,    -1,    18,    -1,    19,    -1,
-       6,    -1,     3,    -1
+      24,     0,    -1,    -1,    25,    24,    -1,     8,    -1,     4,
+      -1,     5,    -1,     6,    -1,     8,    -1,     9,    -1,    10,
+      -1,    11,    -1,    12,    -1,    13,    -1,    14,    -1,    15,
+      -1,    16,    -1,    17,    -1,    18,    -1,    19,    -1,    20,
+      -1,    21,    -1,    22,    -1,     7,    -1,     3,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    47,    47,    51,    53,    56,    56,    56,    57,    62,
-      72,    82,    94,    94,    94,    94,    95,    95,    95,    96,
-      96,    97,    97,    99,   103,   107,   111,   113,   129,   129,
-     131,   141,   151,   161,   178,   180,   183,   184,   185,   186,
-     187,   188,   189,   191,   192,   193,   196,   197
+       0,    27,    27,    28,    30,    33,    34,    35,    36,    37,
+      40,    41,    42,    43,    44,    45,    46,    47,    48,    49,
+      50,    51,    52,    53,    54
 };
 #endif
 
@@ -498,12 +468,10 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "RETVAL", "GLOBAL", "STR", "EQ", "ENDD",
-  "IDENTIFIER", "F_IDENTIFIER", "NUMBER", "TEMPORARY", "LABEL", "GOTO",
-  "GOTO_LABEL", "IF", "RETURN", "PARAM", "CALL", "H", "OP", "CP",
-  "$accept", "program", "globals", "@1", "globaldecl", "functions", "@2",
-  "@3", "tokens", "decls", "paramdecls", "retvaldecl", "paramdecl",
-  "fundecls", "fundecl", "token", 0
+  "$end", "error", "$undefined", "NEWLINE", "RETVAL", "GLOBAL", "STR",
+  "EQ", "ENDD", "IDENTIFIER", "F_IDENTIFIER", "NUMBER", "TEMPORARY",
+  "LABEL", "GOTO", "GOTO_LABEL", "IF", "RETURN", "PARAM", "CALL", "H",
+  "OP", "CP", "$accept", "program", "token", 0
 };
 #endif
 
@@ -514,28 +482,24 @@ static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276
+     275,   276,   277
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    22,    23,    23,    23,    25,    24,    24,    26,    26,
-      26,    26,    28,    29,    27,    27,    30,    30,    30,    31,
-      31,    32,    32,    33,    33,    33,    33,    34,    35,    35,
-      36,    36,    36,    36,    37,    37,    37,    37,    37,    37,
-      37,    37,    37,    37,    37,    37,    37,    37
+       0,    23,    24,    24,    24,    25,    25,    25,    25,    25,
+      25,    25,    25,    25,    25,    25,    25,    25,    25,    25,
+      25,    25,    25,    25,    25
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     3,     1,     0,     3,     1,     2,     3,
-       3,     3,     0,     0,     5,     0,     2,     4,     0,     3,
-       0,     2,     0,     3,     3,     3,     0,     3,     2,     0,
-       3,     3,     3,     3,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1
+       0,     2,     0,     2,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -543,79 +507,59 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       5,     4,     7,     0,    15,     0,     1,     5,     0,     0,
-       0,     0,     5,     3,    13,     8,     0,     0,     6,    18,
-      11,     9,    10,    47,    34,    46,    35,    36,    37,    38,
-      39,    40,    41,    42,    43,    44,    45,    22,     0,    18,
-       0,     0,    29,    22,    14,    16,     0,    18,     0,     0,
-      26,    29,    21,    27,    17,     0,     0,     0,    19,    28,
-      32,    33,    30,    31,     0,    25,    23,    24
+       2,    24,     5,     6,     7,    23,     8,     9,    10,    11,
+      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
+      22,     0,     2,     1,     3
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     3,     4,     5,    12,     7,     8,    19,    38,    41,
-      42,    58,    43,    50,    51,    39
+      -1,    21,    22
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -21
+#define YYPACT_NINF -4
 static const yytype_int8 yypact[] =
 {
-      13,   -21,   -21,    24,    29,    17,   -21,    13,    30,    18,
-      34,    35,    19,   -21,   -21,   -21,    31,    12,   -21,    -3,
-     -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,
-     -21,   -21,   -21,   -21,   -21,   -21,   -21,    10,    27,    -3,
-      38,    25,    -7,    37,   -21,   -21,    32,    -3,    41,    42,
-      47,    -7,   -21,   -21,   -21,    40,    22,    46,   -21,   -21,
-     -21,   -21,   -21,   -21,    26,   -21,   -21,   -21
+      -3,    -4,    -4,    -4,    -4,    -4,    20,    -4,    -4,    -4,
+      -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,    -4,
+      -4,    21,    -3,    -4,    -4
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -21,    48,    44,   -21,   -21,   -21,   -21,   -21,   -20,   -21,
-      11,   -21,   -21,     2,   -21,   -21
+      -4,     0,    -4
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
-#define YYTABLE_NINF -21
+#define YYTABLE_NINF -5
 static const yytype_int8 yytable[] =
 {
-      23,    48,    24,    25,    49,    26,    27,    28,    29,    30,
-      31,    32,    33,    -2,    34,    35,    36,    37,    40,    45,
-       1,     9,    21,    22,     6,    10,    15,    54,    11,     2,
-      61,   -20,    62,    63,    65,     2,    66,    67,   -12,    14,
-      16,    17,    20,    44,    46,    40,    47,    55,    56,    53,
-      57,    60,    64,    59,    52,    13,    18
+       1,     2,     3,     4,     5,     6,     7,     8,     9,    10,
+      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
+      -4,    23,    24
 };
 
 static const yytype_uint8 yycheck[] =
 {
-       3,     8,     5,     6,    11,     8,     9,    10,    11,    12,
-      13,    14,    15,     0,    17,    18,    19,    20,     8,    39,
-       7,     4,    10,    11,     0,     8,     8,    47,    11,    16,
-       8,    21,    10,    11,     8,    16,    10,    11,     9,     9,
-       6,     6,    11,    16,     6,     8,    21,     6,     6,    17,
-       3,    11,     6,    51,    43,     7,    12
+       3,     4,     5,     6,     7,     8,     9,    10,    11,    12,
+      13,    14,    15,    16,    17,    18,    19,    20,    21,    22,
+       0,     0,    22
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     7,    16,    23,    24,    25,     0,    27,    28,     4,
-       8,    11,    26,    23,     9,     8,     6,     6,    24,    29,
-      11,    10,    11,     3,     5,     6,     8,     9,    10,    11,
-      12,    13,    14,    15,    17,    18,    19,    20,    30,    37,
-       8,    31,    32,    34,    16,    30,     6,    21,     8,    11,
-      35,    36,    32,    17,    30,     6,     6,     3,    33,    35,
-      11,     8,    10,    11,     6,     8,    10,    11
+       0,     3,     4,     5,     6,     7,     8,     9,    10,    11,
+      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
+      22,    24,    25,     0,    24
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1430,247 +1374,115 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 53 "parser3.y"
+#line 30 "parser6.y"
     { printf("Ending...\n");stop_parsing = 1;YYABORT;;}
     break;
 
   case 5:
-#line 56 "parser3.y"
-    {printf("global begin\n");;}
+#line 33 "parser6.y"
+    { printf("RETVAL: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
     break;
 
   case 6:
-#line 56 "parser3.y"
-    {printf("global end\n");;}
+#line 34 "parser6.y"
+    { printf("GLOBAL: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
+    break;
+
+  case 7:
+#line 35 "parser6.y"
+    { printf("STR: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
     break;
 
   case 8:
-#line 58 "parser3.y"
-    { 
-                printf("declared global: %s\n", (yyvsp[(2) - (2)].str));
-                globals[(yyvsp[(2) - (2)].str)] = 0;                              
-            ;}
+#line 36 "parser6.y"
+    { printf("asdf");stop_parsing = 1;YYABORT;;}
     break;
 
   case 9:
-#line 63 "parser3.y"
-    {
-            if(symboltable.find((yyvsp[(1) - (3)].str))==symboltable.end()){
-                vector<int> a; a.push_back(stoi((yyvsp[(3) - (3)].str)));
-                symboltable[(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                symboltable[(yyvsp[(1) - (3)].str)].push_back(stoi((yyvsp[(3) - (3)].str)));
-            }
-        ;}
+#line 37 "parser6.y"
+    { printf("IDENTIFIER: %s\n", (yyvsp[(1) - (1)].str)); 
+                        vector<int> aa;
+                        symboltable[(yyvsp[(1) - (1)].str)] = aa;s = s+(yyvsp[(1) - (1)].str)+" "; ;}
     break;
 
   case 10:
-#line 73 "parser3.y"
-    {
-            if(symboltable.find((yyvsp[(1) - (3)].str))==symboltable.end()){
-                vector<int> a; a.push_back(symboltable[(yyvsp[(3) - (3)].str)].back());
-                symboltable[(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                symboltable[(yyvsp[(1) - (3)].str)].push_back(symboltable[(yyvsp[(3) - (3)].str)].back());
-            }
-        ;}
+#line 40 "parser6.y"
+    { printf("F_IDENTIFIER: %s\n", (yyvsp[(1) - (1)].str));s = s+(yyvsp[(1) - (1)].str)+" "; ;}
     break;
 
   case 11:
-#line 83 "parser3.y"
-    {
-            if(symboltable.find((yyvsp[(1) - (3)].str))==symboltable.end()){
-                vector<int> a; a.push_back(symboltable[(yyvsp[(3) - (3)].str)].back());
-                symboltable[(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                symboltable[(yyvsp[(1) - (3)].str)].push_back(symboltable[(yyvsp[(3) - (3)].str)].back());
-            }
-        ;}
+#line 41 "parser6.y"
+    { printf("NUMBER: %s\n", (yyvsp[(1) - (1)].str));s = s+(yyvsp[(1) - (1)].str)+" "; ;}
     break;
 
   case 12:
-#line 94 "parser3.y"
-    {printf("funtion begins\n");;}
+#line 42 "parser6.y"
+    { printf("TEMPORARY: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
     break;
 
   case 13:
-#line 94 "parser3.y"
-    {createfunc((yyvsp[(2) - (2)].str));;}
+#line 43 "parser6.y"
+    { printf("LABEL: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
     break;
 
   case 14:
-#line 94 "parser3.y"
-    {printf("fucntion ends\n");;}
+#line 44 "parser6.y"
+    { printf("GOTO: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
+    break;
+
+  case 15:
+#line 45 "parser6.y"
+    { printf("GOTO_LABEL: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
+    break;
+
+  case 16:
+#line 46 "parser6.y"
+    { printf("IF: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
+    break;
+
+  case 17:
+#line 47 "parser6.y"
+    { printf("RETURN: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
+    break;
+
+  case 18:
+#line 48 "parser6.y"
+    { printf("PARAM: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
+    break;
+
+  case 19:
+#line 49 "parser6.y"
+    { printf("CALL: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
+    break;
+
+  case 20:
+#line 50 "parser6.y"
+    { printf("H: %s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
+    break;
+
+  case 21:
+#line 51 "parser6.y"
+    { printf("%s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
+    break;
+
+  case 22:
+#line 52 "parser6.y"
+    { printf("%s\n", (yyvsp[(1) - (1)].str)); s = s+(yyvsp[(1) - (1)].str)+" ";;}
     break;
 
   case 23:
-#line 100 "parser3.y"
-    {
-            retval = stoi((yyvsp[(3) - (3)].str));
-        ;}
+#line 53 "parser6.y"
+    { printf("%s\n", (yyvsp[(1) - (1)].str));s = s+(yyvsp[(1) - (1)].str)+" ";;}
     break;
 
   case 24:
-#line 104 "parser3.y"
-    {
-            retval = fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back();
-        ;}
-    break;
-
-  case 25:
-#line 108 "parser3.y"
-    {
-            retval = fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back();
-        ;}
-    break;
-
-  case 27:
-#line 114 "parser3.y"
-    {
-            if(fsymboltable[NFUNC].find((yyvsp[(1) - (3)].str))==fsymboltable[NFUNC].end()){
-                string s = (yyvsp[(3) - (3)].str);
-                int i = PARAMS[stoi(s.substr(5))];
-                vector<int> a; a.push_back(i);
-                fsymboltable[NFUNC][(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                string s = (yyvsp[(3) - (3)].str);
-                int i = PARAMS[stoi(s.substr(5))];
-                fsymboltable[NFUNC][(yyvsp[(1) - (3)].str)].push_back(i);
-            }
-        ;}
-    break;
-
-  case 30:
-#line 132 "parser3.y"
-    {
-            if(fsymboltable[NFUNC].find((yyvsp[(1) - (3)].str))==fsymboltable[NFUNC].end()){
-                vector<int> a; a.push_back(stoi((yyvsp[(3) - (3)].str)));
-                fsymboltable[NFUNC][(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                fsymboltable[NFUNC][(yyvsp[(1) - (3)].str)].push_back(stoi((yyvsp[(3) - (3)].str)));
-            }
-        ;}
-    break;
-
-  case 31:
-#line 142 "parser3.y"
-    {
-            if(fsymboltable[NFUNC].find((yyvsp[(1) - (3)].str))==fsymboltable[NFUNC].end()){
-                vector<int> a; a.push_back(fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back());
-                fsymboltable[NFUNC][(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                fsymboltable[NFUNC][(yyvsp[(1) - (3)].str)].push_back(fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back());
-            }
-        ;}
-    break;
-
-  case 32:
-#line 152 "parser3.y"
-    {
-            if(fsymboltable[NFUNC].find((yyvsp[(1) - (3)].str))==fsymboltable[NFUNC].end()){
-                vector<int> a; a.push_back(fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back());
-                fsymboltable[NFUNC][(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                fsymboltable[NFUNC][(yyvsp[(1) - (3)].str)].push_back(fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back());
-            }
-        ;}
-    break;
-
-  case 33:
-#line 162 "parser3.y"
-    {
-            if(fsymboltable[NFUNC].find((yyvsp[(1) - (3)].str))==fsymboltable[NFUNC].end()){
-                vector<int> a; a.push_back(fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back());
-                fsymboltable[NFUNC][(yyvsp[(1) - (3)].str)] = a;
-            }
-            else{
-                fsymboltable[NFUNC][(yyvsp[(1) - (3)].str)].push_back(fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back());
-            }
-        ;}
-    break;
-
-  case 34:
-#line 178 "parser3.y"
-    { printf("STR: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 35:
-#line 180 "parser3.y"
-    { printf("IDENTIFIER: %s\n", (yyvsp[(1) - (1)].str)); 
-                        vector<int> aa;
-                        symboltable[(yyvsp[(1) - (1)].str)] = aa; ;}
-    break;
-
-  case 36:
-#line 183 "parser3.y"
-    { printf("F_IDENTIFIER: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 37:
-#line 184 "parser3.y"
-    { printf("NUMBER: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 38:
-#line 185 "parser3.y"
-    { printf("TEMPORARY: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 39:
-#line 186 "parser3.y"
-    { printf("LABEL: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 40:
-#line 187 "parser3.y"
-    { printf("GOTO: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 41:
-#line 188 "parser3.y"
-    { printf("GOTO_LABEL: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 42:
-#line 189 "parser3.y"
-    { printf("IF: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 43:
-#line 191 "parser3.y"
-    { printf("PARAM: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 44:
-#line 192 "parser3.y"
-    { printf("CALL: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 45:
-#line 193 "parser3.y"
-    { printf("H: %s\n", (yyvsp[(1) - (1)].str)); ;}
-    break;
-
-  case 46:
-#line 196 "parser3.y"
-    { printf("%s\n", (yyvsp[(1) - (1)].str));;}
-    break;
-
-  case 47:
-#line 197 "parser3.y"
-    { printf("RETVAL: %s\n", (yyvsp[(1) - (1)].str)); ;}
+#line 54 "parser6.y"
+    { s = s+ ";\n";;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1674 "parser3.tab.c"
+#line 1486 "parser6.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1884,49 +1696,22 @@ yyreturn:
 }
 
 
-#line 200 "parser3.y"
+#line 63 "parser6.y"
 
 
 // Main function to start the parser
 int main() {
-    std::stringstream res;
         while (!stop_parsing) {
         yyparse();
     }
-    res << " #include<iostream> using namespace std; " ;
-    for (const auto& pair : globals) {
-        
-        std::cout << "global variable: " << pair.first << " = " << pair.second;
-       std::cout << std::endl;
-    }
-    for (const auto& pair : symboltable) {
-        res << "int " << pair.first << " = " ;
-        std::cout << "Key: " << pair.first << " -> Values: ";
-        int g = 0;
-        for (int value : pair.second) {
-            std::cout << value << " ";
-            g = value;
-        }
-        res << g << ";" << endl;
-        std::cout << std::endl;
-    }
-  for (const auto& pairc : functions) {
-        std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl;
-        res << "int " << pairc.first << "() {" << endl;
-    for (const auto& pair : fsymboltable[pairc.second]) {
-        res << "int " << pair.first << " = " ;
-        std::cout << "Key: " << pair.first << " -> Values: ";
-        int g = 0;
-        for (int value : pair.second) {
-            std::cout << value << " ";
-            g = value;
-        }
-        res << g << ";" << endl;
-        std::cout << std::endl;
-    }
-    }
-    string ress = res.str();
-    cout << ress;
+    // for (const auto& pair : symboltable) {
+    //     std::cout << "Key: " << pair.first << " -> Values: ";
+    //     for (int value : pair.second) {
+    //         std::cout << value << " ";
+    //     }
+    //     std::cout << std::endl;
+    // }
+        cout << s;
     return 0;
 }
 

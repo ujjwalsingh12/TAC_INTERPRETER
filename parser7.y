@@ -1,4 +1,5 @@
-%{
+ %{
+
 
 #include <iostream>
 #include <vector>
@@ -14,6 +15,7 @@ unordered_map<string,int > functions;
 unordered_map<int,string > functioncode;
 unordered_map<string,vector<int> > symboltable;
 unordered_map<int,unordered_map<string,vector<int> > > fsymboltable;
+string s = "";
 int retval = 0;
 vector<int> PARAMS(100,0);
 int NFUNC = -1;
@@ -31,6 +33,29 @@ void createfunc(string fun){
     
 }
 
+void createvarn(string x,string y){
+     if(symboltable.find(x)==symboltable.end()){
+                s = s + " int " + x + " = " + y +";\n";
+                vector<int> a; a.push_back(stoi(y));
+                symboltable[x] = a;
+            }
+            else{
+                s = s + x + " = " + y +";\n";
+                symboltable[x].push_back(stoi(y));
+            }
+}
+void createvar(string x,string y){
+        if(symboltable.find(x)==symboltable.end()){
+        s = s + " int " + x + " = " + y +";\n";
+        vector<int> a; a.push_back(symboltable[y].back());
+        symboltable[x] = a;
+    }
+    else{
+        s = s + x + " = " + y +";\n";
+        symboltable[x].push_back(symboltable[y].back());
+    }
+}
+
 %}
 
 %union {
@@ -41,6 +66,24 @@ void createfunc(string fun){
 %token <str> RETVAL GLOBAL STR EQ ENDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
 
 %%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Grammar rules and actions
 
@@ -239,6 +282,8 @@ int main() {
     }
     string ress = res.str();
     cout << ress;
+    cout << "\n-------------------------\n";
+    cout << s;
     return 0;
 }
 

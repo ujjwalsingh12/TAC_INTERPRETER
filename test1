@@ -1,0 +1,14 @@
+global a
+t1 = 9
+a = t1
+a = t1
+return 
+main:
+t9 = param1
+t10 = param2
+t8 = 100
+data = t8
+t2 = 0
+i = t2
+L1:
+t2 = i < 10

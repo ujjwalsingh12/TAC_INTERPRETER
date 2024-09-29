@@ -10,6 +10,7 @@ int yylex();
 void yyerror(const char *s);
 unordered_map<string,vector<int> > symboltable;
 int stop_parsing = 0;
+string s="";
 %}
 
 %union {
@@ -17,7 +18,7 @@ int stop_parsing = 0;
 }
 
 // Define tokens
-%token <str> GLOBAL STR EQ ENDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
+%token <str> RETVAL GLOBAL STR EQ ENDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
 
 %%
 
@@ -29,7 +30,8 @@ program:
     ;
 
 token:
-     GLOBAL  { printf("GLOBAL: %s\n", $1); }
+     RETVAL  { printf("RETVAL: %s\n", $1); }
+    |GLOBAL  { printf("GLOBAL: %s\n", $1); }
     | STR      { printf("STR: %s\n", $1); }
     | ENDD  { printf("asdf");stop_parsing = 1;YYABORT;}
     |IDENTIFIER   { printf("IDENTIFIER: %s\n", $1); 

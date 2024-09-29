@@ -112,7 +112,8 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "parser3.y"
+#line 1 "parser7.y"
+
 
 
 #include <iostream>
@@ -129,6 +130,7 @@ unordered_map<string,int > functions;
 unordered_map<int,string > functioncode;
 unordered_map<string,vector<int> > symboltable;
 unordered_map<int,unordered_map<string,vector<int> > > fsymboltable;
+string s = "";
 int retval = 0;
 vector<int> PARAMS(100,0);
 int NFUNC = -1;
@@ -144,6 +146,29 @@ void createfunc(string fun){
     unordered_map<string,vector<int> > table;
     fsymboltable[NFUNC] = table;
     
+}
+
+void createvarn(string x,string y){
+     if(symboltable.find(x)==symboltable.end()){
+                s = s + " int " + x + " = " + y +";\n";
+                vector<int> a; a.push_back(stoi(y));
+                symboltable[x] = a;
+            }
+            else{
+                s = s + x + " = " + y +";\n";
+                symboltable[x].push_back(stoi(y));
+            }
+}
+void createvar(string x,string y){
+        if(symboltable.find(x)==symboltable.end()){
+        s = s + " int " + x + " = " + y +";\n";
+        vector<int> a; a.push_back(symboltable[y].back());
+        symboltable[x] = a;
+    }
+    else{
+        s = s + x + " = " + y +";\n";
+        symboltable[x].push_back(symboltable[y].back());
+    }
 }
 
 
@@ -168,12 +193,12 @@ void createfunc(string fun){
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 36 "parser3.y"
+#line 61 "parser7.y"
 {
     char *str;
 }
 /* Line 193 of yacc.c.  */
-#line 177 "parser3.tab.c"
+#line 202 "parser7.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -186,7 +211,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 190 "parser3.tab.c"
+#line 215 "parser7.tab.c"
 
 #ifdef short
 # undef short
@@ -485,11 +510,11 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    47,    47,    51,    53,    56,    56,    56,    57,    62,
-      72,    82,    94,    94,    94,    94,    95,    95,    95,    96,
-      96,    97,    97,    99,   103,   107,   111,   113,   129,   129,
-     131,   141,   151,   161,   178,   180,   183,   184,   185,   186,
-     187,   188,   189,   191,   192,   193,   196,   197
+       0,    90,    90,    94,    96,    99,    99,    99,   100,   105,
+     115,   125,   137,   137,   137,   137,   138,   138,   138,   139,
+     139,   140,   140,   142,   146,   150,   154,   156,   172,   172,
+     174,   184,   194,   204,   221,   223,   226,   227,   228,   229,
+     230,   231,   232,   234,   235,   236,   239,   240
 };
 #endif
 
@@ -1430,22 +1455,22 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 53 "parser3.y"
+#line 96 "parser7.y"
     { printf("Ending...\n");stop_parsing = 1;YYABORT;;}
     break;
 
   case 5:
-#line 56 "parser3.y"
+#line 99 "parser7.y"
     {printf("global begin\n");;}
     break;
 
   case 6:
-#line 56 "parser3.y"
+#line 99 "parser7.y"
     {printf("global end\n");;}
     break;
 
   case 8:
-#line 58 "parser3.y"
+#line 101 "parser7.y"
     { 
                 printf("declared global: %s\n", (yyvsp[(2) - (2)].str));
                 globals[(yyvsp[(2) - (2)].str)] = 0;                              
@@ -1453,7 +1478,7 @@ yyreduce:
     break;
 
   case 9:
-#line 63 "parser3.y"
+#line 106 "parser7.y"
     {
             if(symboltable.find((yyvsp[(1) - (3)].str))==symboltable.end()){
                 vector<int> a; a.push_back(stoi((yyvsp[(3) - (3)].str)));
@@ -1466,7 +1491,7 @@ yyreduce:
     break;
 
   case 10:
-#line 73 "parser3.y"
+#line 116 "parser7.y"
     {
             if(symboltable.find((yyvsp[(1) - (3)].str))==symboltable.end()){
                 vector<int> a; a.push_back(symboltable[(yyvsp[(3) - (3)].str)].back());
@@ -1479,7 +1504,7 @@ yyreduce:
     break;
 
   case 11:
-#line 83 "parser3.y"
+#line 126 "parser7.y"
     {
             if(symboltable.find((yyvsp[(1) - (3)].str))==symboltable.end()){
                 vector<int> a; a.push_back(symboltable[(yyvsp[(3) - (3)].str)].back());
@@ -1492,43 +1517,43 @@ yyreduce:
     break;
 
   case 12:
-#line 94 "parser3.y"
+#line 137 "parser7.y"
     {printf("funtion begins\n");;}
     break;
 
   case 13:
-#line 94 "parser3.y"
+#line 137 "parser7.y"
     {createfunc((yyvsp[(2) - (2)].str));;}
     break;
 
   case 14:
-#line 94 "parser3.y"
+#line 137 "parser7.y"
     {printf("fucntion ends\n");;}
     break;
 
   case 23:
-#line 100 "parser3.y"
+#line 143 "parser7.y"
     {
             retval = stoi((yyvsp[(3) - (3)].str));
         ;}
     break;
 
   case 24:
-#line 104 "parser3.y"
+#line 147 "parser7.y"
     {
             retval = fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back();
         ;}
     break;
 
   case 25:
-#line 108 "parser3.y"
+#line 151 "parser7.y"
     {
             retval = fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back();
         ;}
     break;
 
   case 27:
-#line 114 "parser3.y"
+#line 157 "parser7.y"
     {
             if(fsymboltable[NFUNC].find((yyvsp[(1) - (3)].str))==fsymboltable[NFUNC].end()){
                 string s = (yyvsp[(3) - (3)].str);
@@ -1545,7 +1570,7 @@ yyreduce:
     break;
 
   case 30:
-#line 132 "parser3.y"
+#line 175 "parser7.y"
     {
             if(fsymboltable[NFUNC].find((yyvsp[(1) - (3)].str))==fsymboltable[NFUNC].end()){
                 vector<int> a; a.push_back(stoi((yyvsp[(3) - (3)].str)));
@@ -1558,7 +1583,7 @@ yyreduce:
     break;
 
   case 31:
-#line 142 "parser3.y"
+#line 185 "parser7.y"
     {
             if(fsymboltable[NFUNC].find((yyvsp[(1) - (3)].str))==fsymboltable[NFUNC].end()){
                 vector<int> a; a.push_back(fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back());
@@ -1571,7 +1596,7 @@ yyreduce:
     break;
 
   case 32:
-#line 152 "parser3.y"
+#line 195 "parser7.y"
     {
             if(fsymboltable[NFUNC].find((yyvsp[(1) - (3)].str))==fsymboltable[NFUNC].end()){
                 vector<int> a; a.push_back(fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back());
@@ -1584,7 +1609,7 @@ yyreduce:
     break;
 
   case 33:
-#line 162 "parser3.y"
+#line 205 "parser7.y"
     {
             if(fsymboltable[NFUNC].find((yyvsp[(1) - (3)].str))==fsymboltable[NFUNC].end()){
                 vector<int> a; a.push_back(fsymboltable[NFUNC][(yyvsp[(3) - (3)].str)].back());
@@ -1597,80 +1622,80 @@ yyreduce:
     break;
 
   case 34:
-#line 178 "parser3.y"
+#line 221 "parser7.y"
     { printf("STR: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 35:
-#line 180 "parser3.y"
+#line 223 "parser7.y"
     { printf("IDENTIFIER: %s\n", (yyvsp[(1) - (1)].str)); 
                         vector<int> aa;
                         symboltable[(yyvsp[(1) - (1)].str)] = aa; ;}
     break;
 
   case 36:
-#line 183 "parser3.y"
+#line 226 "parser7.y"
     { printf("F_IDENTIFIER: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 37:
-#line 184 "parser3.y"
+#line 227 "parser7.y"
     { printf("NUMBER: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 38:
-#line 185 "parser3.y"
+#line 228 "parser7.y"
     { printf("TEMPORARY: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 39:
-#line 186 "parser3.y"
+#line 229 "parser7.y"
     { printf("LABEL: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 40:
-#line 187 "parser3.y"
+#line 230 "parser7.y"
     { printf("GOTO: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 41:
-#line 188 "parser3.y"
+#line 231 "parser7.y"
     { printf("GOTO_LABEL: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 42:
-#line 189 "parser3.y"
+#line 232 "parser7.y"
     { printf("IF: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 43:
-#line 191 "parser3.y"
+#line 234 "parser7.y"
     { printf("PARAM: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 44:
-#line 192 "parser3.y"
+#line 235 "parser7.y"
     { printf("CALL: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 45:
-#line 193 "parser3.y"
+#line 236 "parser7.y"
     { printf("H: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 46:
-#line 196 "parser3.y"
+#line 239 "parser7.y"
     { printf("%s\n", (yyvsp[(1) - (1)].str));;}
     break;
 
   case 47:
-#line 197 "parser3.y"
+#line 240 "parser7.y"
     { printf("RETVAL: %s\n", (yyvsp[(1) - (1)].str)); ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1674 "parser3.tab.c"
+#line 1699 "parser7.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1884,7 +1909,7 @@ yyreturn:
 }
 
 
-#line 200 "parser3.y"
+#line 243 "parser7.y"
 
 
 // Main function to start the parser
@@ -1927,6 +1952,8 @@ int main() {
     }
     string ress = res.str();
     cout << ress;
+    cout << "\n-------------------------\n";
+    cout << s;
     return 0;
 }
 
