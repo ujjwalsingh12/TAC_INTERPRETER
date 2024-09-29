@@ -20,6 +20,7 @@ unordered_map<int,string > functioncode;
 unordered_map<string,vector<int> > symboltable;
 
 unordered_map<int,unordered_map<string,vector<int> > > fsymboltable;
+unordered_map<int,vector<string> > fparamtable;
 
 string s = "";
 
@@ -41,6 +42,8 @@ void createfunc(string fun){
     functioncode[NFUNC] = ""; //
     unordered_map<string,vector<int> > table;
     fsymboltable[NFUNC] = table;
+    vector<string> tt;
+    fparamtable[NFUNC] = tt;
     
 }
 
@@ -88,20 +91,10 @@ void fcreatevarn(int id,string x,string y){
                 fsymboltable[id][x].push_back(stoi(y));
             }
 }
-void iden_param(int id,string x,string y){
-        if(fsymboltable[id].find(x)==fsymboltable[id].end()){
-        functioncode[id] = functioncode[id] + " int " + x + " = " + y +";\n";
-        vector<int> a; a.push_back(PARAMS[stoi(y.substr(5))]);
-        fsymboltable[id][x] = a;
-    }
-    else{
-        functioncode[id] = functioncode[id] + x + " = " + y +";\n";
-        fsymboltable[id][x].push_back(PARAMS[stoi(y.substr(5))]);
-    }
-}
-void iden_param_simple(int id,string x,string y){
-        functioncode[id] = functioncode[id] + " int " + x + " = " + y +";\n";
-    }
+void fcreateparam(int id,string x){
+        // s = s + x + " = " + y +",\n";
+        string g = "int "+x;
+        fparamtable[id].push_back(g);
 }
 
 %}
@@ -139,13 +132,13 @@ globaldecl 	: GLOBAL IDENTIFIER
 functions 	: F_IDENTIFIER {createfunc($1);} decls RETURN 
 			| ;
 //--------------------------
-decls 	: paramdecls fundecls retvaldecl 
+decls 	:   paramdecls fundecls retvaldecl 
 			| ; 
 //--------------------------	
 paramdecls 	: paramdecl paramdecls 
-			| ; 
+			| paramdecl ; 
 //--------------------------
-paramdecl 	: IDENTIFIER EQ PARAM {iden_param(NFUNC,$1,$2);}
+paramdecl 	: IDENTIFIER EQ PARAM {fcreateparam(NFUNC,$1);}
             ;
 //--------------------------
 fundecls 	: fundecl fundecls 
@@ -390,7 +383,12 @@ int main() {
     }
   for (const auto& pairc : functions) {
         std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl;
-        res << "int " << pairc.first << "() {" << endl;
+        res << "int " << pairc.first << "(";
+        for(int i =0;i<fparamtable[pairc.second].size();i++){
+            res << fparamtable[pairc.second][i];
+            if(i<fparamtable[pairc.second].size()-1) res << ",";
+        }
+        res << ") {" << endl;
     for (const auto& pair : fsymboltable[pairc.second]) {
         res << "int " << pair.first << " = " ;
         std::cout << "Key: " << pair.first << " -> Values: ";

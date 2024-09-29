@@ -101,7 +101,10 @@ void iden_param(int id,string x,string y){
 }
 void iden_param_simple(int id,string x,string y){
         functioncode[id] = functioncode[id] + " int " + x + " = " + y +";\n";
-    }
+}
+
+void createfunc_simple(string fun){
+    s = s + fun + "\n";
 }
 
 %}
@@ -162,10 +165,10 @@ assignmt    : direct
 			| indirect
             ;
 //--------------------------
-direct      : IDENTIFIER EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
-			| TEMPORARY  EQ NUMBER {fcreatevarn(NFUNC,$1,$3);}
-			| TEMPORARY	 EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
-			| TEMPORARY  EQ IDENTIFIER {fcreatevar(NFUNC,$1,$3);}
+direct      : IDENTIFIER EQ TEMPORARY {createvarn($1,$3);}
+			| TEMPORARY  EQ NUMBER {createvarn($1,$3);}
+			| TEMPORARY	 EQ TEMPORARY {createvarn($1,$3);}
+			| TEMPORARY  EQ IDENTIFIER {createvarn($1,$3);}
 			| TEMPORARY  EQ STR
 			| PARAM      EQ TEMPORARY
 			;
@@ -388,24 +391,24 @@ int main() {
         res << g << ";" << endl;
         std::cout << std::endl;
     }
-  for (const auto& pairc : functions) {
-        std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl;
-        res << "int " << pairc.first << "() {" << endl;
-    for (const auto& pair : fsymboltable[pairc.second]) {
-        res << "int " << pair.first << " = " ;
-        std::cout << "Key: " << pair.first << " -> Values: ";
-        int g = 0;
-        for (int value : pair.second) {
-            std::cout << value << " ";
-            g = value;
-        }
-        res << g << ";" << endl;
-        res << pair.second.back() << ";" << endl;
-        std::cout << std::endl;
-    }
-    }
-    string ress = res.str();
-    cout << ress;
+//   for (const auto& pairc : functions) {
+//         std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl;
+//         res << "int " << pairc.first << "() {" << endl;
+//     for (const auto& pair : fsymboltable[pairc.second]) {
+//         res << "int " << pair.first << " = " ;
+//         std::cout << "Key: " << pair.first << " -> Values: ";
+//         int g = 0;
+//         for (int value : pair.second) {
+//             std::cout << value << " ";
+//             g = value;
+//         }
+//         res << g << ";" << endl;
+//         res << pair.second.back() << ";" << endl;
+//         std::cout << std::endl;
+//     }
+//     }
+    // string ress = res.str();
+    // cout << ress;
     cout << "\n-------------------------\n";
     cout << s;
     return 0;

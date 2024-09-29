@@ -112,7 +112,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "parser9.y"
+#line 1 "parser10.y"
 
 
 
@@ -135,7 +135,6 @@ unordered_map<int,string > functioncode;
 unordered_map<string,vector<int> > symboltable;
 
 unordered_map<int,unordered_map<string,vector<int> > > fsymboltable;
-unordered_map<int,vector<string> > fparamtable;
 
 string s = "";
 
@@ -157,8 +156,6 @@ void createfunc(string fun){
     functioncode[NFUNC] = ""; //
     unordered_map<string,vector<int> > table;
     fsymboltable[NFUNC] = table;
-    vector<string> tt;
-    fparamtable[NFUNC] = tt;
     
 }
 
@@ -206,10 +203,23 @@ void fcreatevarn(int id,string x,string y){
                 fsymboltable[id][x].push_back(stoi(y));
             }
 }
-void fcreateparam(int id,string x){
-        // s = s + x + " = " + y +",\n";
-        string g = "int "+x;
-        fparamtable[id].push_back(g);
+void iden_param(int id,string x,string y){
+        if(fsymboltable[id].find(x)==fsymboltable[id].end()){
+        functioncode[id] = functioncode[id] + " int " + x + " = " + y +";\n";
+        vector<int> a; a.push_back(PARAMS[stoi(y.substr(5))]);
+        fsymboltable[id][x] = a;
+    }
+    else{
+        functioncode[id] = functioncode[id] + x + " = " + y +";\n";
+        fsymboltable[id][x].push_back(PARAMS[stoi(y.substr(5))]);
+    }
+}
+void iden_param_simple(int id,string x,string y){
+        functioncode[id] = functioncode[id] + " int " + x + " = " + y +";\n";
+}
+
+void createfunc_simple(string fun){
+    s = s + fun + "\n";
 }
 
 
@@ -234,12 +244,12 @@ void fcreateparam(int id,string x){
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 102 "parser9.y"
+#line 112 "parser10.y"
 {
     char *str;
 }
 /* Line 193 of yacc.c.  */
-#line 243 "parser9.tab.c"
+#line 253 "parser10.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -252,7 +262,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 256 "parser9.tab.c"
+#line 266 "parser10.tab.c"
 
 #ifdef short
 # undef short
@@ -467,7 +477,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  12
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   60
+#define YYLAST   72
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  22
@@ -524,10 +534,10 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyprhs[] =
 {
        0,     0,     3,     5,     8,    10,    14,    15,    18,    22,
-      26,    30,    31,    36,    37,    41,    42,    45,    47,    51,
-      54,    55,    57,    59,    61,    64,    66,    68,    70,    74,
-      78,    82,    86,    90,    94,    98,   100,   102,   104,   106,
-     113,   117,   120,   122,   126,   130,   131,   135
+      26,    30,    31,    36,    37,    41,    42,    45,    46,    50,
+      53,    54,    56,    58,    60,    63,    65,    67,    69,    73,
+      77,    81,    85,    89,    93,    97,    99,   101,   103,   105,
+     112,   116,   119,   121,   125,   129,   130,   134
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
@@ -537,26 +547,26 @@ static const yytype_int8 yyrhs[] =
       26,    25,    16,    -1,    -1,     4,     8,    -1,    11,     6,
       10,    -1,    11,     6,    11,    -1,     8,     6,    11,    -1,
       -1,     9,    28,    29,    16,    -1,    -1,    30,    32,    42,
-      -1,    -1,    31,    30,    -1,    31,    -1,     8,     6,    17,
-      -1,    33,    32,    -1,    -1,    34,    -1,    39,    -1,    38,
-      -1,    13,    14,    -1,    12,    -1,    35,    -1,    36,    -1,
-       8,     6,    11,    -1,    11,     6,    10,    -1,    11,     6,
-      11,    -1,    11,     6,     8,    -1,    11,     6,     5,    -1,
-      17,     6,    11,    -1,    11,     6,    37,    -1,     8,    -1,
-      19,    -1,    21,    -1,    20,    -1,    15,    20,    11,    21,
-      13,    14,    -1,    40,    18,    12,    -1,    41,    40,    -1,
-      41,    -1,    17,     6,    11,    -1,    17,     6,     8,    -1,
-      -1,     3,     6,    11,    -1,     3,     6,     8,    -1
+      -1,    -1,    31,    30,    -1,    -1,     8,     6,    17,    -1,
+      33,    32,    -1,    -1,    34,    -1,    39,    -1,    38,    -1,
+      13,    14,    -1,    12,    -1,    35,    -1,    36,    -1,     8,
+       6,    11,    -1,    11,     6,    10,    -1,    11,     6,    11,
+      -1,    11,     6,     8,    -1,    11,     6,     5,    -1,    17,
+       6,    11,    -1,    11,     6,    37,    -1,     8,    -1,    19,
+      -1,    21,    -1,    20,    -1,    15,    20,    11,    21,    13,
+      14,    -1,    40,    18,    12,    -1,    41,    40,    -1,    41,
+      -1,    17,     6,    11,    -1,    17,     6,     8,    -1,    -1,
+       3,     6,    11,    -1,     3,     6,     8,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   117,   117,   119,   120,   123,   124,   126,   127,   128,
-     129,   132,   132,   133,   135,   136,   138,   139,   141,   144,
-     145,   147,   148,   149,   150,   151,   154,   155,   158,   159,
-     160,   161,   162,   163,   166,   169,   170,   171,   172,   175,
-     178,   181,   182,   185,   186,   187,   189,   190
+       0,   127,   127,   129,   130,   133,   134,   136,   137,   138,
+     139,   142,   142,   143,   145,   146,   148,   149,   151,   154,
+     155,   157,   158,   159,   160,   161,   164,   165,   168,   169,
+     170,   171,   172,   173,   176,   179,   180,   181,   182,   185,
+     188,   191,   192,   195,   196,   197,   199,   200
 };
 #endif
 
@@ -600,7 +610,7 @@ static const yytype_uint8 yyr1[] =
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     1,     2,     1,     3,     0,     2,     3,     3,
-       3,     0,     4,     0,     3,     0,     2,     1,     3,     2,
+       3,     0,     4,     0,     3,     0,     2,     0,     3,     2,
        0,     1,     1,     1,     2,     1,     1,     1,     3,     3,
        3,     3,     3,     3,     3,     1,     1,     1,     1,     6,
        3,     2,     1,     3,     3,     0,     3,     3
@@ -612,7 +622,7 @@ static const yytype_uint8 yyr2[] =
 static const yytype_uint8 yydefact[] =
 {
        6,     0,     4,     0,     0,     0,     2,    13,     6,     7,
-       0,     0,     1,    11,     3,     0,    10,     8,     9,    15,
+       0,     0,     1,    11,     3,     0,    10,     8,     9,    17,
        5,     0,     0,    20,    17,     0,    12,     0,     0,    25,
        0,     0,     0,     0,    20,    21,    26,    27,    23,    22,
        0,    42,    16,    18,     0,     0,    24,     0,     0,     0,
@@ -631,25 +641,25 @@ static const yytype_int8 yydefgoto[] =
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -10
+#define YYPACT_NINF -8
 static const yytype_int8 yypact[] =
 {
-       0,    10,   -10,    13,    17,    30,   -10,    24,    21,   -10,
-      23,    -9,   -10,   -10,   -10,    19,   -10,   -10,   -10,    28,
-     -10,    31,    22,     9,    28,    25,   -10,    33,    34,   -10,
-      27,    26,    37,    41,     9,   -10,   -10,   -10,   -10,   -10,
-      29,    32,   -10,   -10,    39,    -5,   -10,    40,     1,    42,
-     -10,   -10,    43,    46,   -10,   -10,   -10,   -10,   -10,   -10,
-     -10,   -10,   -10,   -10,    35,   -10,   -10,     2,   -10,    20,
-      44,   -10,   -10,   -10,    45,   -10
+       0,    -6,    -8,     6,    17,    34,    -8,    26,    21,    -8,
+      25,     8,    -8,    -8,    -8,    23,    -8,    -8,    -8,    -7,
+      -8,    31,    24,     9,    30,    27,    -8,    35,    36,    -8,
+      29,    28,    39,    43,     9,    -8,    -8,    -8,    -8,    -8,
+      32,    37,    -8,    -8,    38,    -5,    -8,    40,     2,    41,
+      -8,    -8,    44,    46,    -8,    -8,    -8,    -8,    -8,    -8,
+      -8,    -8,    -8,    -8,    42,    -8,    -8,    20,    -8,    22,
+      45,    -8,    -8,    -8,    47,    -8
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -10,   -10,   -10,    50,   -10,   -10,   -10,   -10,    36,   -10,
-      11,   -10,   -10,   -10,   -10,   -10,   -10,   -10,    12,   -10,
-     -10
+      -8,    -8,    -8,    49,    -8,    -8,    -8,    -8,    48,    -8,
+      19,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    14,    -8,
+      -8
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -659,24 +669,26 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -46
 static const yytype_int8 yytable[] =
 {
-      56,    17,    18,    57,     1,    58,    59,     2,     3,    65,
-      71,     4,    66,    72,    60,    61,    62,    27,     9,    10,
-      28,    29,    30,    11,    31,     1,    32,   -45,    65,     3,
-      12,    73,     4,    13,    16,    20,    21,    25,    26,    44,
-      45,    46,    43,    48,    49,    51,    47,    52,    67,    53,
-      55,    64,    69,    54,     0,    68,    70,    74,    15,    75,
-      42
+      56,    21,     9,    57,     1,    58,    59,     2,     3,   -15,
+      65,     4,    10,    66,    60,    61,    62,    27,    17,    18,
+      28,    29,    30,    11,    31,     1,    32,   -45,    71,     3,
+      65,    72,     4,    73,    12,    13,    16,    25,    21,    20,
+      26,    44,    45,    46,    43,    48,    49,    67,    47,    55,
+      52,    64,    69,    51,    53,    54,    68,    15,    74,     0,
+       0,    75,     0,    70,     0,     0,     0,     0,     0,     0,
+       0,     0,    42
 };
 
 static const yytype_int8 yycheck[] =
 {
-       5,    10,    11,     8,     4,    10,    11,     7,     8,     8,
-       8,    11,    11,    11,    19,    20,    21,     8,     8,     6,
+       5,     8,     8,     8,     4,    10,    11,     7,     8,    16,
+       8,    11,     6,    11,    19,    20,    21,     8,    10,    11,
       11,    12,    13,     6,    15,     4,    17,    18,     8,     8,
-       0,    11,    11,     9,    11,    16,     8,     6,    16,     6,
-       6,    14,    17,     6,     3,    34,    20,    18,     6,    17,
-      11,    11,     6,    41,    -1,    12,    21,    13,     8,    14,
-      24
+       8,    11,    11,    11,     0,     9,    11,     6,     8,    16,
+      16,     6,     6,    14,    17,     6,     3,     6,    20,    11,
+      18,    11,     6,    34,    17,    41,    12,     8,    13,    -1,
+      -1,    14,    -1,    21,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    24
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -1505,58 +1517,58 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 120 "parser9.y"
+#line 130 "parser10.y"
     { printf("Ending...\n");stop_parsing = 1;YYABORT;;}
     break;
 
   case 8:
-#line 127 "parser9.y"
+#line 137 "parser10.y"
     {createvarn((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 9:
-#line 128 "parser9.y"
+#line 138 "parser10.y"
     {createvar((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 10:
-#line 129 "parser9.y"
+#line 139 "parser10.y"
     {createvar((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 11:
-#line 132 "parser9.y"
+#line 142 "parser10.y"
     {createfunc((yyvsp[(1) - (1)].str));;}
     break;
 
   case 18:
-#line 141 "parser9.y"
-    {fcreateparam(NFUNC,(yyvsp[(1) - (3)].str));;}
+#line 151 "parser10.y"
+    {iden_param(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(2) - (3)].str));;}
     break;
 
   case 28:
-#line 158 "parser9.y"
-    {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
+#line 168 "parser10.y"
+    {createvarn((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 29:
-#line 159 "parser9.y"
-    {fcreatevarn(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
+#line 169 "parser10.y"
+    {createvarn((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 30:
-#line 160 "parser9.y"
-    {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
+#line 170 "parser10.y"
+    {createvarn((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 31:
-#line 161 "parser9.y"
-    {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
+#line 171 "parser10.y"
+    {createvarn((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1560 "parser9.tab.c"
+#line 1572 "parser10.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1770,7 +1782,7 @@ yyreturn:
 }
 
 
-#line 359 "parser9.y"
+#line 369 "parser10.y"
 
 
 // Main function to start the parser
@@ -1796,29 +1808,24 @@ int main() {
         res << g << ";" << endl;
         std::cout << std::endl;
     }
-  for (const auto& pairc : functions) {
-        std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl;
-        res << "int " << pairc.first << "(";
-        for(int i =0;i<fparamtable[pairc.second].size();i++){
-            res << fparamtable[pairc.second][i];
-            if(i<fparamtable[pairc.second].size()-1) res << ",";
-        }
-        res << ") {" << endl;
-    for (const auto& pair : fsymboltable[pairc.second]) {
-        res << "int " << pair.first << " = " ;
-        std::cout << "Key: " << pair.first << " -> Values: ";
-        int g = 0;
-        for (int value : pair.second) {
-            std::cout << value << " ";
-            g = value;
-        }
-        res << g << ";" << endl;
-        res << pair.second.back() << ";" << endl;
-        std::cout << std::endl;
-    }
-    }
-    string ress = res.str();
-    cout << ress;
+//   for (const auto& pairc : functions) {
+//         std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl;
+//         res << "int " << pairc.first << "() {" << endl;
+//     for (const auto& pair : fsymboltable[pairc.second]) {
+//         res << "int " << pair.first << " = " ;
+//         std::cout << "Key: " << pair.first << " -> Values: ";
+//         int g = 0;
+//         for (int value : pair.second) {
+//             std::cout << value << " ";
+//             g = value;
+//         }
+//         res << g << ";" << endl;
+//         res << pair.second.back() << ";" << endl;
+//         std::cout << std::endl;
+//     }
+//     }
+    // string ress = res.str();
+    // cout << ress;
     cout << "\n-------------------------\n";
     cout << s;
     return 0;
