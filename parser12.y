@@ -35,6 +35,7 @@ int stop_parsing = 0;
 int Ntemp = 0;
 // std::stringstream oss;
 string temp;
+string print_string;
 
 void createfunc(string fun){
     NFUNC++;
@@ -113,7 +114,7 @@ void fcreateparam(int id,string x){
 }
 
 // Define decls
-%token <str> XX RETVAL GLOBAL STR EQ ENDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
+%token <str> PRINTF RETVAL GLOBAL STR EQ ENDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
 
 %%
 
@@ -172,11 +173,9 @@ direct      : IDENTIFIER EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
 			| TEMPORARY  EQ NUMBER {fcreatevarn(NFUNC,$1,$3);}
 			| TEMPORARY	 EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
 			| TEMPORARY  EQ IDENTIFIER {fcreatevar(NFUNC,$1,$3);}
-            // | RETVAL EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
-            // | RETVAL EQ IDENTIFIER {fcreatevar(NFUNC,$1,$3);}
-            // | RETVAL EQ NUMBER {fcreatevar(NFUNC,$1,$3);}
             | TEMPORARY EQ RETVAL {fcreatevar(NFUNC,$1,$3);}
             | IDENTIFIER EQ RETVAL {fcreatevar(NFUNC,$1,$3);}
+            | TEMPORARY EQ STR {cout<<"string aaya bhai"<<endl;stringstream p;p<<$3; print_string = p.str();}
 			;
 //--------------------------
 indirect    : TEMPORARY EQ exps 
@@ -239,6 +238,10 @@ caller : CALL IDENTIFIER
     callers = callers + ";";
     functioncode[NFUNC] += callers;
     cout << callers << endl;
+}
+            | CALL PRINTF
+{
+    functioncode[NFUNC] += "\nprintf("+print_string+");\n";
 }
 			;
 //--------------------------

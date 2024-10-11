@@ -39,7 +39,7 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     XX = 258,
+     PRINTF = 258,
      RETVAL = 259,
      GLOBAL = 260,
      STR = 261,
@@ -62,7 +62,7 @@
    };
 #endif
 /* Tokens.  */
-#define XX 258
+#define PRINTF 258
 #define RETVAL 259
 #define GLOBAL 260
 #define STR 261
@@ -88,7 +88,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 111 "parser12.y"
+#line 112 "parser12.y"
 {
     char *str;
 }
