@@ -17,3 +17,6 @@ goto L4
 L3:
 retval = a == b
 return
+
+ENDD
+ENDD

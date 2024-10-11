@@ -25,3 +25,5 @@ param2 = t7
 call printf
 retval = 0
 return
+ENDD
+ENDD

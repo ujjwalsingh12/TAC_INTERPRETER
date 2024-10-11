@@ -33,3 +33,5 @@ param3 = t9
 call printf
 retval = 0
 return
+ENDD
+ENDD

@@ -9,3 +9,5 @@ t5 = t1 + t4
 str[t5] = t3
 retval = 0
 return
+ENDD
+ENDD

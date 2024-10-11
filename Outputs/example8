@@ -26,3 +26,6 @@ param2 = result
 call printf
 retval = 0
 return
+
+ENDD
+ENDD

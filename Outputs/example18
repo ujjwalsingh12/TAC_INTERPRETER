@@ -24,3 +24,6 @@ call sum_of_squares
 result = retval
 retval = 0
 return
+
+ENDD
+ENDD

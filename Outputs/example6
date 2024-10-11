@@ -16,3 +16,6 @@ goto L1
 L3:
 retval = 0
 return
+
+ENDD
+ENDD

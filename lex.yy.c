@@ -485,9 +485,9 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "lexer11.l"
-#line 2 "lexer11.l"
-#include "parser7.tab.h"
+#line 1 "lexer12.l"
+#line 2 "lexer12.l"
+#include "parser12.tab.h"
 using namespace std;
 #line 492 "lex.yy.c"
 #line 493 "lex.yy.c"
@@ -707,7 +707,7 @@ YY_DECL
 		}
 
 	{
-#line 7 "lexer11.l"
+#line 7 "lexer12.l"
 
 #line 712 "lex.yy.c"
 
@@ -768,113 +768,113 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 8 "lexer11.l"
+#line 8 "lexer12.l"
 {yylval.str = strdup(yytext);return RETVAL;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 9 "lexer11.l"
+#line 9 "lexer12.l"
 {yylval.str = strdup(yytext);return GLOBAL;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 10 "lexer11.l"
+#line 10 "lexer12.l"
 { return ENDD;}
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 11 "lexer11.l"
+#line 11 "lexer12.l"
 {; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 12 "lexer11.l"
+#line 12 "lexer12.l"
 {yylval.str = strdup(yytext);return EQ;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 13 "lexer11.l"
+#line 13 "lexer12.l"
 { yylval.str = strdup(yytext);return OP;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 14 "lexer11.l"
+#line 14 "lexer12.l"
 { yylval.str = strdup(yytext);return CP;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 15 "lexer11.l"
+#line 15 "lexer12.l"
 { yylval.str = strdup(yytext);return GOTO; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 16 "lexer11.l"
+#line 16 "lexer12.l"
 { yylval.str = strdup(yytext);return IF; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 17 "lexer11.l"
+#line 17 "lexer12.l"
 { yylval.str = strdup(yytext);return RETURN; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 18 "lexer11.l"
+#line 18 "lexer12.l"
 { yylval.str = strdup(yytext);return PARAM; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 19 "lexer11.l"
+#line 19 "lexer12.l"
 { yylval.str = strdup(yytext);return CALL; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 20 "lexer11.l"
+#line 20 "lexer12.l"
 { yylval.str = strdup(yytext);return STR; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 21 "lexer11.l"
+#line 21 "lexer12.l"
 { yylval.str = strdup(yytext); return TEMPORARY; }   // Temporary variables like t1, t2, etc.
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 22 "lexer11.l"
+#line 22 "lexer12.l"
 { yylval.str = strdup(yytext); return LABEL; }       // Labels like L1, L2, etc.
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 23 "lexer11.l"
+#line 23 "lexer12.l"
 { yylval.str = strdup(yytext); return GOTO_LABEL; }       // Labels like L1, L2, etc.
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 24 "lexer11.l"
+#line 24 "lexer12.l"
 { yylval.str = strdup(yytext); return F_IDENTIFIER; }  // Identifiers for variables, functions
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 25 "lexer11.l"
+#line 25 "lexer12.l"
 { yylval.str = strdup(yytext); return IDENTIFIER; }  // Identifiers for variables, functions
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 26 "lexer11.l"
+#line 26 "lexer12.l"
 { yylval.str = strdup(yytext); return NUMBER; }       // Numeric constants
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 27 "lexer11.l"
+#line 27 "lexer12.l"
 { yylval.str = strdup(yytext); return H; }      // Operators and assignment
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 28 "lexer11.l"
+#line 28 "lexer12.l"
 { printf("Unexpected character: %s\n", yytext); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 29 "lexer11.l"
+#line 29 "lexer12.l"
 ECHO;
 	YY_BREAK
 #line 880 "lex.yy.c"
@@ -1882,7 +1882,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 29 "lexer11.l"
+#line 29 "lexer12.l"
 
 
 int yywrap() {

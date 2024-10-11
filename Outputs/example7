@@ -38,3 +38,6 @@ call printf
 L8:
 retval = 0
 return
+
+ENDD
+ENDD

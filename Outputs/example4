@@ -23,3 +23,6 @@ call add
 c = retval
 retval = 0
 return
+
+ENDD
+ENDD
