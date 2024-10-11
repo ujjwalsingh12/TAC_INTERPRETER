@@ -1,0 +1,22 @@
+int add(int x, int y) 
+{
+    x = x +y;
+    return x;
+}
+
+int multiply(int x, int y) 
+{
+    x = x * y;
+    return x;
+}
+
+int main() 
+{
+    int a;
+    int b;
+    int c;
+    a = add(2, 3);
+    b = multiply(4, 5);
+    c = add(a, b);
+    return c;
+}

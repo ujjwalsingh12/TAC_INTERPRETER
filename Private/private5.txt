@@ -1,0 +1,52 @@
+int main()
+{
+    int bugFixer;         // Debugging hero
+    int codeWizard;       // A mythical coder
+    int featureCreep;     // A new feature that just won't stop
+    int rubberDuck;       // For debugging with conversations
+    int spaghettiCode;    // Messy code structure
+    int techDebt;         // Refers to technical debt
+    int refactorOverlord; // Refactor champion
+    int mergeConflict;    // Unpleasant version control problems
+    int syntaxTyrant;     // Syntax stickler
+    int commitMaster;     // Perfect commit record
+
+    bugFixer = 42;
+    codeWizard = 85;
+    featureCreep = 19;
+    rubberDuck = 1;
+    spaghettiCode = 999;
+    techDebt = 500;
+    refactorOverlord = 75;
+    mergeConflict = 32;
+    syntaxTyrant = 101;
+    commitMaster = 7;
+
+    if (codeWizard > bugFixer)
+    {
+        mergeConflict = codeWizard - bugFixer + rubberDuck * 2;
+        printf("Merge Conflict Value: %d\n", mergeConflict);
+    }
+    else if (spaghettiCode <= techDebt)
+    {
+        spaghettiCode = spaghettiCode + rubberDuck * rubberDuck - refactorOverlord;
+        printf("Spaghetti Code Level: %d\n", spaghettiCode);
+    }
+    else if (featureCreep == rubberDuck)
+    {
+        featureCreep = featureCreep * syntaxTyrant - commitMaster;
+        printf("Feature Creep is in check at: %d\n", featureCreep);
+    }
+    else if (techDebt > commitMaster * 10)
+    {
+        techDebt = techDebt - (commitMaster + rubberDuck);
+        printf("Tech Debt skyrockets to: %d\n", techDebt);
+    }
+    else
+    {
+        refactorOverlord = refactorOverlord + mergeConflict + syntaxTyrant * bugFixer;
+        printf("Refactor Overlord gains power to: %d\n", refactorOverlord);
+    }
+
+    return 0;
+}

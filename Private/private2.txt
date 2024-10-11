@@ -1,0 +1,57 @@
+int main()
+{
+    // Declaring 20 integer variables
+    int apple;
+    int banana;
+    int cherry;
+    int dragonfruit;
+    int elderberry;
+    int fig;
+    int grape;
+    int honeydew;
+    int kiwi;
+    int lemon;
+    int mango;
+    int nectarine;
+    int orange;
+    int papaya;
+    int quince;
+    int raspberry;
+    int strawberry;
+    int tangerine;
+    int ugli_fruit;
+    int watermelon;
+    int fruit_salad;
+
+    // Defining the variables
+    apple = 10;
+    banana = 20;
+    cherry = 30;
+    dragonfruit = 40;
+    elderberry = 50;
+    fig = 60;
+    grape = 70;
+    honeydew = 80;
+    kiwi = 90;
+    lemon = 100;
+    mango = 110;
+    nectarine = 120;
+    orange = 130;
+    papaya = 140;
+    quince = 150;
+    raspberry = 160;
+    strawberry = 170;
+    tangerine = 180;
+    ugli_fruit = 190;
+    watermelon = 200;
+
+    apple = banana + cherry - fig;
+    elderberry = grape * 2 + kiwi;
+    mango = lemon / 2 + orange;
+    raspberry = watermelon - dragonfruit + tangerine;
+    ugli_fruit = quince + papaya - strawberry;
+
+    fruit_salad = apple + elderberry + mango + raspberry + ugli_fruit;
+
+    return 0;
+}

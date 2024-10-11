@@ -1,0 +1,28 @@
+factorial:
+n = param1
+t1 = n == 0
+if (t1) goto L1
+goto L2
+L1:
+retval = 1
+return
+L2:
+t2 = n - 1
+param1 = t2
+call factorial
+t3 = retval
+t4 = n * t3
+retval = t4
+return
+
+main:
+t5 = 5
+param1 = t5
+call factorial
+result = retval
+t6 = "5! = %d\n"
+param1 = t6
+param2 = result
+call printf
+retval = 0
+return

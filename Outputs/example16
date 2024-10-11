@@ -1,0 +1,22 @@
+add:
+x = param1
+y = param2
+z = param3
+t1 = x + y
+retval = t1 + z
+return
+
+main:
+t3 = 1
+abacus = t3
+t4 = 2
+babbage = t4
+t5 = 3
+claude = t5
+param1 = abacus
+param2 = babbage
+param3 = claude
+call add
+debian = retval
+retval = debian
+return

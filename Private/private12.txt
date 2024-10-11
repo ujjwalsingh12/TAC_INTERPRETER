@@ -1,0 +1,25 @@
+int multiply_funny(int giggleFactor, int chuckleLimit) 
+{
+    int laughMeter;
+    int funnyCounter;
+    laughMeter = 0;
+    funnyCounter = 0;
+    
+    while ((funnyCounter < chuckleLimit)) 
+    {
+        laughMeter = laughMeter + giggleFactor;
+        funnyCounter = funnyCounter + 1;
+    }
+    
+    return laughMeter;
+}
+
+int main() 
+{
+    int result;
+    
+    result = multiply_funny(4, 6);
+    printf("Result: %d\n", result);
+    
+    return 0;
+}

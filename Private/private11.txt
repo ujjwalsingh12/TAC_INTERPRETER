@@ -1,0 +1,27 @@
+int add_numbers(int a, int b) 
+{
+    return a + b;
+}
+
+int subtract_numbers(int a, int b) 
+{
+    return a - b;
+}
+
+int main() 
+{
+    int x;
+    int y;
+    int result;
+    
+    x = 10;
+    y = 5;
+    
+    result = add_numbers(x, y);
+    printf("Sum: %d\n", result);
+    
+    result = subtract_numbers(x, y);
+    printf("Difference: %d\n", result);
+    
+    return 0;
+}

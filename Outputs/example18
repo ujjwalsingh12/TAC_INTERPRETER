@@ -1,0 +1,26 @@
+square:
+x = param1
+retval = x*x
+return
+
+sum_of_squares:
+a = param1
+b = param2
+param1 = a
+call square
+t2 = retval
+param1 = b
+call square
+t3 = retval
+retval = t2 + t3
+return
+
+main:
+t5 = 3
+t6 = 4
+param1 = t5
+param2 = t6
+call sum_of_squares
+result = retval
+retval = 0
+return

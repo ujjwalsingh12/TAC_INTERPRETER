@@ -1,0 +1,33 @@
+int main()
+{
+    int internetProtocolVersion;
+    int maximumTransmissionUnit;
+    int cyclicRedundancyCheck;
+    int transmissionControlBlock;
+    int roundTripTimeEstimator;
+    int acknowledgmentNumberTracker;
+    int packetErrorRateCalculator;
+    int flowControlMechanism;
+    int adaptiveTimeoutThreshold;
+    int congestionWindowSize;
+    int finalNetworkState;
+
+    internetProtocolVersion = 4;
+    maximumTransmissionUnit = 1500;
+    cyclicRedundancyCheck = 32;
+    transmissionControlBlock = 1024;
+    roundTripTimeEstimator = 200;
+    acknowledgmentNumberTracker = 65536;
+    packetErrorRateCalculator = 5;
+    flowControlMechanism = 100;
+    adaptiveTimeoutThreshold = 300;
+    congestionWindowSize = 65535;
+
+    roundTripTimeEstimator = acknowledgmentNumberTracker - cyclicRedundancyCheck + maximumTransmissionUnit;
+    congestionWindowSize = congestionWindowSize / packetErrorRateCalculator + flowControlMechanism;
+    adaptiveTimeoutThreshold = transmissionControlBlock + adaptiveTimeoutThreshold - internetProtocolVersion;
+
+    finalNetworkState = roundTripTimeEstimator + congestionWindowSize + adaptiveTimeoutThreshold;
+
+    return 0;
+}

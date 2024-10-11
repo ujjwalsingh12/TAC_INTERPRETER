@@ -1,0 +1,11 @@
+main:
+t1 = 2
+a = t1
+t2 = 3
+b = t2
+t3 = 'A'
+t4 = t2 * t1
+t5 = t1 + t4
+str[t5] = t3
+retval = 0
+return

@@ -1,0 +1,31 @@
+int add_two_numbers(int a, int b) 
+{
+    return a + b;
+}
+
+int multiply_two_numbers(int a, int b) 
+{
+    return a * b;
+}
+
+int subtract_two_numbers(int a, int b) 
+{
+    return a - b;
+}
+
+int main() {
+    int sum;
+    int product;
+    int difference;
+    
+    sum = add_two_numbers(8, 12);
+    product = multiply_two_numbers(5, 4);
+    difference = subtract_two_numbers(product, sum);
+    
+    printf("Sum: %d\n", sum);
+    printf("Product: %d\n", product);
+    printf("Difference: %d\n", difference);
+    
+    return 0;
+}
+

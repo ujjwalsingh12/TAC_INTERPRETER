@@ -1,0 +1,25 @@
+global result
+global flag
+t1 = 0
+flag = t1
+
+add:
+x = param1
+y = param2
+t2 = x + y
+result = t2
+t3 = x + y
+retval = t3
+return
+
+main:
+t4 = 5
+a = t4
+t5 = 10
+b = t5
+param1 = t4
+param2 = t5
+call add
+c = retval
+retval = 0
+return

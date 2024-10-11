@@ -1,0 +1,32 @@
+int mysterious_counter(int limit) 
+{
+    int funValue;
+    int laughTracker;
+    funValue = 2;
+    laughTracker = 0;
+    
+    while (laughTracker < limit) 
+    {
+        if (funValue < 10) 
+        {
+            funValue = funValue + 4;
+        } 
+        else 
+        {
+            funValue = funValue + 2;
+        }
+        laughTracker = laughTracker + 1;
+    }
+    
+    return funValue;
+}
+
+int main() 
+{
+    int result;
+    
+    result = mysterious_counter(12);
+    printf("mysterious Result: %d\n", result);
+    
+    return 0;
+}

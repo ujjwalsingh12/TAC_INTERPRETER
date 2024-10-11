@@ -1,0 +1,7 @@
+main:
+t1 = 5
+a = t1
+retval = 0
+return
+ENDD
+ENDD

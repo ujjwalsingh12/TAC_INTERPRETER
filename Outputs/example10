@@ -1,0 +1,27 @@
+global global_var
+t1 = 10
+global_var = t1
+
+add:
+x = param1
+y = param2
+t2 = x + y
+retval = t2 + global_var
+return
+
+main:
+t4 = 5
+a = t4
+t5 = 10
+b = t5
+param1 = t4
+param2 = t5
+call add
+result = retval
+t6 = "Result: %d\n"
+t7 = result
+param1 = t6
+param2 = t7
+call printf
+retval = 0
+return

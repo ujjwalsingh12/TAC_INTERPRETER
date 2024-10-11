@@ -1,0 +1,25 @@
+int main() 
+{
+    int i;
+    int number;
+    int limit;
+    int sum;
+    int step;
+    int var;
+
+    i = 0;
+    number = 5;
+    limit = 25;
+    sum = 0;
+    step = 1;
+
+
+    for (i = 0; i < limit; i = i + step) 
+    {
+        sum = sum + number;
+    }
+
+    var = sum; 
+
+    return var;
+}

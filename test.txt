@@ -1,0 +1,13 @@
+Ending...
+function name: main: = 0
+Key: a -> Values: t1 
+Key: t1 -> Values: 5 
+ #include<iostream> using namespace std; int main:() {
+int a = t1;
+t1;
+int t1 = 5;
+5;
+
+-------------------------
+ int t1 = 5;
+ int a = t1;

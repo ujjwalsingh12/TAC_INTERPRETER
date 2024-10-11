@@ -1,0 +1,48 @@
+int main()
+{
+    int alanTuring;
+    int adaLovelace;
+    int johnVonNeumann;
+    int graceHopper;
+    int charlesBabbage;
+    int timBernersLee;
+    int dennisRitchie;
+    int donaldKnuth;
+    int billGates;
+    int steveWozniak;
+    int legacyInnovation;
+    int pioneeringComputing;
+    int softwareRevolution;
+    int cryptographyBreakthrough;
+    int theoryToPractice;
+    int historyOfComputing;
+
+
+    alanTuring = 1912;
+    adaLovelace = 1815;
+    johnVonNeumann = 1903;
+    graceHopper = 1906;
+    charlesBabbage = 1791;
+    timBernersLee = 1955;
+    dennisRitchie = 1941;
+    donaldKnuth = 1938;
+    billGates = 1955;
+    steveWozniak = 1950;
+
+
+    legacyInnovation = alanTuring + adaLovelace - charlesBabbage;
+
+    pioneeringComputing = johnVonNeumann * graceHopper;
+
+    softwareRevolution = billGates / steveWozniak;
+
+    cryptographyBreakthrough = alanTuring - (alanTuring / dennisRitchie);
+
+    theoryToPractice = donaldKnuth ** 2;
+
+    historyOfComputing = legacyInnovation + pioneeringComputing - softwareRevolution * cryptographyBreakthrough / theoryToPractice;
+
+    printf("The final result of historyOfComputing is: %d\n", historyOfComputing);
+
+    return 0;
+}

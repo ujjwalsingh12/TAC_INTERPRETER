@@ -20,26 +20,22 @@ unordered_map<int,string > functioncode;
 unordered_map<string,vector<int> > symboltable;
 
 unordered_map<int,unordered_map<string,vector<string> > > fsymboltable;
+
 unordered_map<int,vector<string> > fparamtable;
+
 queue<string> call_params;
 
 string s = "";
-
 int retval = 0;
-
 vector<int> PARAMS(100,0);
-
 int NFUNC = -1;
-
 int stop_parsing = 0;
-
 int Ntemp = 0;
-
-
+std::stringstream oss;
 
 void createfunc(string fun){
     NFUNC++;
-    functions[fun] = NFUNC; // THIS WILL STORE THE ID OF FUNCTION
+    functions[fun.substr(0,fun.size()-1)] = NFUNC; // THIS WILL STORE THE ID OF FUNCTION
     functioncode[NFUNC] = ""; //
     unordered_map<string,vector<string> > table;
     fsymboltable[NFUNC] = table;
@@ -122,7 +118,7 @@ program 	: globals functions
 			| ENDD  { printf("Ending...\n");stop_parsing = 1;YYABORT;}
 			;
 //--------------------------
-globals 	: globaldecl globals RETURN  
+globals 	: globaldecl globals   
 			| ;
 //--------------------------
 globaldecl 	: GLOBAL IDENTIFIER 
@@ -148,9 +144,9 @@ fundecls 	: fundecl fundecls
 //--------------------------
 fundecl 	: assignmt
 			| func_call
-			| conditional
-			| GOTO GOTO_LABEL {cout << $1 << " " << $2 << endl;}
-			| LABEL {cout << $1 << " " <<endl;}
+			| opral
+			| GOTO GOTO_LABEL {oss << $1 << " " << $2 << endl; functioncode[NFUNC]+=oss.str();oss.clear();}
+			| LABEL {oss << $1 << " " <<endl; functioncode[NFUNC]+=oss.str();oss.clear();}
             ;
 //--------------------------
 assignmt    : direct
@@ -163,17 +159,33 @@ direct      : IDENTIFIER EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
 			| TEMPORARY  EQ IDENTIFIER {fcreatevar(NFUNC,$1,$3);}
 			;
 //--------------------------
-indirect    : TEMPORARY EQ condition
+indirect    : TEMPORARY EQ exps 
+{
+    string callers = "";
+    callers = $1;
+    callers = callers + " = ";
+    while(!call_params.empty()){
+        string par = call_params.front();
+        call_params.pop();
+        callers = callers + par + " ";
+    }
+    callers[callers.size()-1] = ';';
+    functioncode[NFUNC] += callers;
+    // cout << callers << endl;
+}
             ;
 //--------------------------
-condition   : IDENTIFIER
-			| H
-			| CP
-			| OP
-			;
+exps :  exp | ;
 //--------------------------
-conditional : IF OP TEMPORARY CP GOTO GOTO_LABEL
-            ;
+exp : opr opr opr | ;
+//--------------------------
+opr   : IDENTIFIER{call_params.push($1);}
+        | H{call_params.push($1);}
+        | NUMBER{call_params.push($1);}
+		;
+//--------------------------
+opral : IF OP TEMPORARY CP GOTO GOTO_LABEL {oss << "if ( "<<$3<<") goto "<<$6<<";"; functioncode[NFUNC]+=oss.str();oss.clear();}
+      ;
 //--------------------------
 func_call   : func_parms caller
 //--------------------------
@@ -189,6 +201,7 @@ caller : CALL IDENTIFIER
     }
     callers[callers.size()-1] = ')';
     callers = callers + ";";
+    functioncode[NFUNC] += callers;
     cout << callers << endl;
 }
 			;
@@ -203,171 +216,6 @@ retvaldecl 	: RETVAL EQ TEMPORARY
 			| RETVAL EQ IDENTIFIER
 			;
 
-
-
-
-
-
-
-
-
-
-
-
-// // Grammar rules and actions
-
-// program:
-//     // | token program
-//     // | token 
-//     // | globals // mainfucntion
-//     | globals functions program
-//     // | token program 
-//     | ENDD  { printf("Ending...\n");stop_parsing = 1;YYABORT;}
-//     ;
-
-// globals : {printf("global begin\n");} globaldecl globals {printf("global end\n");} | RETURN;
-// globaldecl: GLOBAL IDENTIFIER 
-//             { 
-//                 printf("declared global: %s\n", $2);
-//                 globals[$2] = 0;                              
-//             } //GLOBAL VARIABLE INITIALIZED 
-//         | TEMPORARY EQ NUMBER 
-//         {
-//             if(symboltable.find($1)==symboltable.end()){
-//                 vector<int> a; a.push_back(stoi($3));
-//                 symboltable[$1] = a;
-//             }
-//             else{
-//                 symboltable[$1].push_back(stoi($3));
-//             }
-//         }
-//         | TEMPORARY EQ TEMPORARY 
-//         {
-//             if(symboltable.find($1)==symboltable.end()){
-//                 vector<int> a; a.push_back(symboltable[$3].back());
-//                 symboltable[$1] = a;
-//             }
-//             else{
-//                 symboltable[$1].push_back(symboltable[$3].back());
-//             }
-//         }
-//         | IDENTIFIER EQ TEMPORARY 
-//         {
-//             if(symboltable.find($1)==symboltable.end()){
-//                 vector<int> a; a.push_back(symboltable[$3].back());
-//                 symboltable[$1] = a;
-//             }
-//             else{
-//                 symboltable[$1].push_back(symboltable[$3].back());
-//             }
-//         }
-//         ; 
-
-// functions   : {printf("funtion begins\n");} F_IDENTIFIER {createfunc($2);} decls RETURN {printf("fucntion ends\n");} | ;
-// decls      : token decls | OP decls CP decls | ;
-// decls       : paramdecls fundecls retvaldecl    | ;
-// paramdecls  : paramdecl paramdecls |;
-
-// retvaldecl : RETVAL EQ NUMBER 
-//         {
-//             retval = stoi($3);
-//         }
-//         | RETVAL EQ TEMPORARY 
-//         {
-//             retval = fsymboltable[NFUNC][$3].back();
-//         }
-//         | RETVAL EQ IDENTIFIER 
-//         {
-//             retval = fsymboltable[NFUNC][$3].back();
-//         }
-//         | ; 
-
-// paramdecl : IDENTIFIER EQ PARAM 
-//         {
-//             if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
-//                 string s = $3;
-//                 int i = PARAMS[stoi(s.substr(5))];
-//                 vector<int> a; a.push_back(i);
-//                 fsymboltable[NFUNC][$1] = a;
-//             }
-//             else{
-//                 string s = $3;
-//                 int i = PARAMS[stoi(s.substr(5))];
-//                 fsymboltable[NFUNC][$1].push_back(i);
-//             }
-//         }
-//         ; 
-
-// fundecls : fundecl fundecls | ;
-
-// fundecl: TEMPORARY EQ NUMBER 
-//         {
-//             if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
-//                 vector<int> a; a.push_back(stoi($3));
-//                 fsymboltable[NFUNC][$1] = a;
-//             }
-//             else{
-//                 fsymboltable[NFUNC][$1].push_back(stoi($3));
-//             }
-//         }
-//         | TEMPORARY EQ TEMPORARY 
-//         {
-//             if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
-//                 vector<int> a; a.push_back(fsymboltable[NFUNC][$3].back());
-//                 fsymboltable[NFUNC][$1] = a;
-//             }
-//             else{
-//                 fsymboltable[NFUNC][$1].push_back(fsymboltable[NFUNC][$3].back());
-//             }
-//         }
-//         | IDENTIFIER EQ TEMPORARY 
-//         {
-//             if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
-//                 vector<int> a; a.push_back(fsymboltable[NFUNC][$3].back());
-//                 fsymboltable[NFUNC][$1] = a;
-//             }
-//             else{
-//                 fsymboltable[NFUNC][$1].push_back(fsymboltable[NFUNC][$3].back());
-//             }
-//         }
-//         | TEMPORARY EQ IDENTIFIER 
-//         {
-//             if(fsymboltable[NFUNC].find($1)==fsymboltable[NFUNC].end()){
-//                 vector<int> a; a.push_back(fsymboltable[NFUNC][$3].back());
-//                 fsymboltable[NFUNC][$1] = a;
-//             }
-//             else{
-//                 fsymboltable[NFUNC][$1].push_back(fsymboltable[NFUNC][$3].back());
-//             }
-//         }
-//         ; 
-
-
-
-
-
-// token: 
-//     STR      { printf("STR: %s\n", $1); }
-    
-//     |IDENTIFIER   { printf("IDENTIFIER: %s\n", $1); 
-//                         vector<int> aa;
-//                         symboltable[$1] = aa; }
-//     |F_IDENTIFIER   { printf("F_IDENTIFIER: %s\n", $1); }
-//     | NUMBER      { printf("NUMBER: %s\n", $1); }
-//     | TEMPORARY   { printf("TEMPORARY: %s\n", $1); }
-//     | LABEL       { printf("LABEL: %s\n", $1); }
-//     | GOTO        { printf("GOTO: %s\n", $1); }
-// 	| GOTO_LABEL  { printf("GOTO_LABEL: %s\n", $1); }
-//     | IF          { printf("IF: %s\n", $1); }
-//     // | RETURN      { printf("RETURN: %s\n", $1); }
-//     | PARAM       { printf("PARAM: %s\n", $1); }
-//     | CALL        { printf("CALL: %s\n", $1); }
-// 	| H 			{ printf("H: %s\n", $1); }
-// 	// | OP 			{ printf("%s\n", $1); }
-// 	// | CP			{ printf("%s\n", $1); }
-//     | EQ            { printf("%s\n", $1);}
-//     | RETVAL        { printf("RETVAL: %s\n", $1); }
-//     ;
 
 %%
 

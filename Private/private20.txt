@@ -1,0 +1,46 @@
+int clueless() 
+{
+    int funkyCounter;
+    int weirdNumber;
+    int sillyLimit;
+    int bizarreSum;
+    int loopyControl;
+    int oddIncrement;
+
+    funkyCounter = 1;
+    weirdNumber = 5;
+    sillyLimit = 20;
+    bizarreSum = 0;
+    loopyControl = 2;
+    oddIncrement = 3;
+
+    while ((funkyCounter < sillyLimit)) 
+    {
+        bizarreSum = (bizarreSum + weirdNumber * loopyControl);
+        funkyCounter = (funkyCounter + loopyControl);
+        loopyControl = (loopyControl + oddIncrement);
+    }
+
+    goofyGlobal = (bizarreSum);                     // 'goofyGlobal' is not defined within the function
+
+    funkyCounter = 1;
+    loopyControl = 1;
+
+    while ((funkyCounter < sillyLimit)) 
+    {
+        bizarreSum = (bizarreSum + goofyGlobal / loopyControl);
+        loopyControl = (loopyControl + oddIncrement);
+        funkyCounter = (funkyCounter + oddIncrement);
+    }
+
+    while ((sillyLimit > 0)) 
+    {
+        goofyGlobal = (goofyGlobal + funkyCounter * oddIncrement);
+        funkyCounter = (funkyCounter - 1);
+        sillyLimit = (sillyLimit - 2);
+    }
+
+    printf("This is Goofy: %d\n", goofyGlobal);
+
+    return 0;
+}

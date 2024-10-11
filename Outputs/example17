@@ -1,0 +1,37 @@
+add:
+x = param1
+y = param2
+t1 = x + y
+x = t1
+retval = x
+return
+
+multiply:
+x = param1
+y = param2
+t2 = x * y
+x = t2
+retval = x
+return
+
+main:
+t3 = 2
+t4 = 3
+param1 = t3
+param2 = t4
+call add
+a = retval
+
+t5 = 4
+t6 = 5
+param1 = t5
+param2 = t6
+call multiply
+b = retval
+
+param1 = a
+param2 = b
+call add
+c = retval
+retval = c
+return

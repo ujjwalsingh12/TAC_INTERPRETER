@@ -1,0 +1,40 @@
+main:
+t1 = 100
+data = t1
+t2 = 0
+i = t2
+L1:
+t3 = i < 10
+if (t3) goto L2
+goto L3
+L2:
+t4 = data + 1
+data = t4
+t5 = "Bye Bye %d"
+t6 = i
+param1 = t5
+param2 = t6
+call printf
+t7 = i + 1
+i = t7
+goto L1
+L3:
+t8 = data > 111
+if (t8) goto L4
+goto L5
+L4:
+t9 = i < 10
+if  (t9) goto L6
+goto L7
+L6:
+t10 = "Failed"
+param1 = t10
+call printf
+goto L8
+L7:
+t11 = "Success"
+param1 = t11
+call printf
+L8:
+retval = 0
+return

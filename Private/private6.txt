@@ -1,0 +1,33 @@
+int main()
+{
+    int infiniteLoop;      
+    int offByOneError;     
+    int nullPointer;       
+    int memoryLeak;        
+    int syntaxError;       
+
+    infiniteLoop = 404;
+    offByOneError = 1;
+    nullPointer = 0;
+    memoryLeak = 256;
+    syntaxError = 99;
+
+
+    if ((infiniteLoop > syntaxError) && (offByOneError == 1))
+    {
+        memoryLeak = infiniteLoop + syntaxError - offByOneError;
+        printf("Memory Leak increases to: %d\n", memoryLeak);
+    }
+    else if ((nullPointer == 0) || (memoryLeak > syntaxError))
+    {
+        memoryLeak = memoryLeak - syntaxError * 2;
+        printf("Memory Leak handled, now: %d\n", memoryLeak);
+    }
+    else
+    {
+        syntaxError = syntaxError * 2 + infiniteLoop;
+        printf("Syntax Error escalates to: %d\n", syntaxError);
+    }
+
+    return 0;
+}

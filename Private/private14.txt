@@ -1,0 +1,30 @@
+int different_addition(int funkyValue, int oddLimit) 
+{
+    int funnySum;
+    funnySum = 0;
+    
+    if (funkyValue > oddLimit) 
+    {
+        funnySum = funkyValue + oddLimit + 3;
+    } 
+    else if (funkyValue == oddLimit) 
+    {
+        funnySum = funkyValue * 2 + 5;
+    } 
+    else 
+    {
+        funnySum = funkyValue + 1;
+    }
+    
+    return funnySum;
+}
+
+int main() 
+{
+    int result;
+    
+    result = different_addition(7, 10);
+    printf("different Result: %d\n", result);
+    
+    return 0;
+}

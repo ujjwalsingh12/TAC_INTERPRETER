@@ -1,0 +1,6 @@
+int sum() 
+{
+    int total;
+    total = a + 5;  // 'a' is not defined within the function
+    return total;
+}

@@ -1,0 +1,9 @@
+main:
+t1 = 5
+a = t1 
+t2 = 10
+b = t2
+t3 = a + b
+c = t3
+retval = 0
+return

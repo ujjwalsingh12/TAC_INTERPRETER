@@ -1,0 +1,18 @@
+main:
+t1 = 5
+a = t1
+t2 = 10                      
+b = t2
+t3 = a < b                     
+if (t3) goto L1
+goto L2
+L1: 
+t3 = b    
+a = t3                       
+goto L3                    
+L2:
+t4 = a
+b = t4                   
+L3:        
+retval = 0                
+return

@@ -1,0 +1,23 @@
+int add_witty(int cleverValue, int smartValue) 
+{
+    return cleverValue + smartValue;
+}
+
+int multiply_witty(int wittyValue, int geniusValue) 
+{
+    return wittyValue * geniusValue;
+}
+
+int main() 
+{
+    int totalCleverness;
+    int totalWit;
+    
+    totalCleverness = add_witty(10, 20);
+    totalWit = multiply_witty(2, 3);
+    
+    printf("Clever Sum: %d\n", totalCleverness);
+    printf("Witty Product: %d\n", totalWit);
+    
+    return 0;
+}

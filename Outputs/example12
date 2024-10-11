@@ -1,0 +1,4 @@
+main:
+t1 = 'A'
+str[0] = t1
+return

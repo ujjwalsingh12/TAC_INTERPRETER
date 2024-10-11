@@ -1,0 +1,35 @@
+int hilariousGlobal;
+
+int main() 
+{
+    int crazyCounter;
+    int sillyNumber;
+    int weirdLimit;
+    int goofySum;
+    int loopyStep;
+
+    crazyCounter = 0;
+    sillyNumber = 4;
+    weirdLimit = 30;
+    goofySum = 0;
+    loopyStep = 1;
+
+    for (crazyCounter = 0; crazyCounter < weirdLimit; crazyCounter = crazyCounter + 1) 
+    {
+        goofySum = goofySum + sillyNumber;
+    }
+
+    hilariousGlobal = goofySum;
+
+    for (crazyCounter = 0; crazyCounter < weirdLimit; crazyCounter = crazyCounter + loopyStep) 
+    {
+        goofySum = goofySum + crazyCounter;
+    }
+
+    for (crazyCounter = 0; crazyCounter < goofySum; crazyCounter = crazyCounter + loopyStep) 
+    {
+        hilariousGlobal = hilariousGlobal + crazyCounter;
+    }
+
+    return hilariousGlobal;
+}

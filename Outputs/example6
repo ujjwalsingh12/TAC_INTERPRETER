@@ -1,0 +1,18 @@
+t1 = 0
+i = t1
+L1:
+t2 = i < 5
+if (t2) goto L2
+goto L3
+L2:
+t3 = "Iteration %d"
+t4 = i
+param1 = t3
+param2 = t4
+call printf
+t5 = i + 1
+i = t5
+goto L1
+L3:
+retval = 0
+return

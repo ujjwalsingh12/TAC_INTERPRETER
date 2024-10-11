@@ -1,0 +1,27 @@
+int main() 
+{
+  int data;
+  int i;
+  
+  data = 100;
+
+  for (i = 0; i < 10; i = i + 1) 
+  {
+    data = data + 1;
+    printf("Bye Bye %d", i);
+  }
+
+  if (data > 111) 
+  {
+    if (i < 10) 
+    {
+      printf("Failed");
+    } 
+    else 
+    {
+      printf("Success");
+    }
+  }
+
+  return 0;
+}

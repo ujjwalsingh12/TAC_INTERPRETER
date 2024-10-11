@@ -1,0 +1,18 @@
+int main()
+{
+    int socket;
+    int port;
+    int data;
+    int header_bits80;
+    int datagram;
+
+    socket = 192;
+    port = 9999;
+    datagram = 64;
+    header_bits80 = 80;
+
+    datagram = socket + port + header_bits80 + data;
+
+    return 0;
+
+}

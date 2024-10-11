@@ -1,0 +1,38 @@
+int main() 
+{
+    int cleverCounter;
+    int funnyNumber;
+    int quirkyLimit;
+    int hilariousSum;
+    int loopingControl;
+
+    cleverCounter = 0;
+    funnyNumber = 7;
+    quirkyLimit = 15;
+    hilariousSum = 0;
+    loopingControl = 1;
+
+    while ((cleverCounter < quirkyLimit)) 
+    {
+        hilariousSum = (hilariousSum + funnyNumber * loopingControl);
+        loopingControl = loopingControl - (loopingControl * 2);
+        cleverCounter = (cleverCounter + 1);
+    }
+
+    if ((hilariousSum > 0)) 
+    {
+        hilariousSum = (hilariousSum + quirkyLimit);
+    } 
+    else 
+    {
+        hilariousSum = (hilariousSum - quirkyLimit);
+    }
+
+    while ((quirkyLimit > 0)) 
+    {
+        hilariousSum = (hilariousSum + quirkyLimit);
+        quirkyLimit = (quirkyLimit - 1);
+    }
+
+    return hilariousSum;
+}

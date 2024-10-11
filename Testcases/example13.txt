@@ -1,0 +1,13 @@
+int main() 
+{
+    int a;
+    int b;
+    a = 7;
+    b = 9;
+
+    if ((a > 5) && (b < 10)) 
+    {
+        a = b;
+    }
+    return a == b; //all conditionals return either 1 or 0 integers
+}
