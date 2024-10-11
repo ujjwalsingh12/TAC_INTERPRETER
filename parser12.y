@@ -141,7 +141,7 @@ globaldecl 	: GLOBAL IDENTIFIER
 functions 	: F_IDENTIFIER {createfunc($1);} decls RETURN 
 			| ;
 //--------------------------
-decls 	:   paramdecls fundecls retvaldecl 
+decls 	:   paramdecls fundecls 
 			| ; 
 //--------------------------	
 paramdecls 	: paramdecl paramdecls 
@@ -185,6 +185,21 @@ indirect    : TEMPORARY EQ exps
     functioncode[NFUNC] += callers;
     // cout << callers << endl;
 }
+            | RETVAL EQ exps 
+{
+    fcreatevar(NFUNC,$1,"0");
+    string callers = "";
+    callers = $1;
+    callers = callers + " = ";
+    // while(!call_params.empty()){
+    //     string par = call_params.front();
+    //     call_params.pop();
+    //     callers = callers + par + " ";
+    // }
+    callers[callers.size()-1] = ';';
+    functioncode[NFUNC] += callers;
+    // cout << callers << endl;
+}
             ;
 //--------------------------
 exps :  exp | ;
@@ -194,6 +209,7 @@ exp : opr opr opr | ;
 opr   : IDENTIFIER{call_params.push($1);}
         | H{call_params.push($1);}
         | NUMBER{call_params.push($1);}
+        | TEMPORARY{call_params.push($1);}
 		;
 //--------------------------
 opral : IF OP TEMPORARY CP GOTO GOTO_LABEL {stringstream osss; osss << "if ( "<<$3<<") goto "<<$6<<";"; functioncode[NFUNC]+=osss.str();osss.clear();}
@@ -225,7 +241,34 @@ func_parm   : PARAM      EQ TEMPORARY {call_params.push($3);}
             | ;
 //--------------------------
 retvaldecl 	: RETVAL EQ TEMPORARY 
+{
+    cout << "rtval"<<endl;
+    //     fcreatevar(NFUNC,$1,"0");
+    // string callers = "";
+    // callers = $1;
+    // callers = callers + " = ";
+    // while(!call_params.empty()){
+    //     string par = call_params.front();
+    //     call_params.pop();
+    //     callers = callers + par + " ";
+    // }
+    // callers[callers.size()-1] = ';';
+    // functioncode[NFUNC] += callers;
+}
 			| RETVAL EQ IDENTIFIER
+{   cout << "rtval"<<endl;
+    //     fcreatevar(NFUNC,$1,"0");
+    // string callers = "";
+    // callers = $1;
+    // callers = callers + " = ";
+    // while(!call_params.empty()){
+    //     string par = call_params.front();
+    //     call_params.pop();
+    //     callers = callers + par + " ";
+    // }
+    // callers[callers.size()-1] = ';';
+    // functioncode[NFUNC] += callers;
+}
 			;
 
 
@@ -284,8 +327,8 @@ int main() {
     //   std::cout << std::endl;
     }
     res << functioncode[pairc.second];
+    res << "}"<<endl;
   }
-    res << "return 0;" <<endl<< "}";
     string ress = res.str();
     cout << ress;
     // cout << s;

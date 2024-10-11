@@ -9,6 +9,7 @@ retval      {yylval.str = strdup(yytext);return RETVAL;}
 global      {yylval.str = strdup(yytext);return GLOBAL;}
 ENDD       { return ENDD;}
 [ \t\n]        {; }
+"=="            {yylval.str = strdup(yytext);return H;}
 "="             {yylval.str = strdup(yytext);return EQ;}
 "("             { yylval.str = strdup(yytext);return OP;}
 ")"             { yylval.str = strdup(yytext);return CP;}
@@ -24,7 +25,7 @@ call          { yylval.str = strdup(yytext);return CALL; }
 [a-zA-Z_][a-zA-Z_0-9]*: { yylval.str = strdup(yytext); return F_IDENTIFIER; }  // Identifiers for variables, functions
 [a-zA-Z_][a-zA-Z_0-9]* { yylval.str = strdup(yytext); return IDENTIFIER; }  // Identifiers for variables, functions
 [0-9]+         { yylval.str = strdup(yytext); return NUMBER; }       // Numeric constants
-[+\-*/<>]       { yylval.str = strdup(yytext); return H; }      // Operators and assignment
+[+\-*/<>]      { yylval.str = strdup(yytext); return H; }      // Operators and assignment
 .              { printf("Unexpected character: %s\n", yytext); }
 %%
 
