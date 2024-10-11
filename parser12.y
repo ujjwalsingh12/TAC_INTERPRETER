@@ -113,7 +113,7 @@ void fcreateparam(int id,string x){
 }
 
 // Define decls
-%token <str> RETVAL GLOBAL STR EQ ENDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
+%token <str> XX RETVAL GLOBAL STR EQ ENDD IDENTIFIER F_IDENTIFIER NUMBER TEMPORARY LABEL GOTO GOTO_LABEL IF RETURN PARAM CALL H OP CP
 
 %%
 
@@ -138,13 +138,16 @@ globaldecl 	: GLOBAL IDENTIFIER
 			| IDENTIFIER EQ TEMPORARY {createvar($1,$3);}
 			;
 //--------------------------
-functions 	: F_IDENTIFIER {createfunc($1);} decls RETURN 
+functions 	: functions function
+			| ;
+//--------------------------
+function 	: F_IDENTIFIER {createfunc($1);} decls {cout<<" endding "<<$1<<endl;}
 			| ;
 //--------------------------
 decls 	:   paramdecls fundecls 
 			| ; 
 //--------------------------	
-paramdecls 	: paramdecl paramdecls 
+paramdecls 	: paramdecl paramdecls
 			| ; 
 //--------------------------
 paramdecl 	: IDENTIFIER EQ PARAM {fcreateparam(NFUNC,$1);}
@@ -158,6 +161,7 @@ fundecl 	: assignmt
 			| opral
 			| GOTO GOTO_LABEL {stringstream oss; oss << $1 << " " << $2 << ";"<< endl; functioncode[NFUNC]+=oss.str();oss.clear();}
 			| LABEL {stringstream oss; oss << $1 << " " <<endl; functioncode[NFUNC]+=oss.str();oss.clear();}
+            | RETURN {functioncode[NFUNC]+="\nreturn retval;\n"}
             ;
 //--------------------------
 assignmt    : direct
@@ -168,6 +172,11 @@ direct      : IDENTIFIER EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
 			| TEMPORARY  EQ NUMBER {fcreatevarn(NFUNC,$1,$3);}
 			| TEMPORARY	 EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
 			| TEMPORARY  EQ IDENTIFIER {fcreatevar(NFUNC,$1,$3);}
+            // | RETVAL EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
+            // | RETVAL EQ IDENTIFIER {fcreatevar(NFUNC,$1,$3);}
+            // | RETVAL EQ NUMBER {fcreatevar(NFUNC,$1,$3);}
+            | TEMPORARY EQ RETVAL {fcreatevar(NFUNC,$1,$3);}
+            | IDENTIFIER EQ RETVAL {fcreatevar(NFUNC,$1,$3);}
 			;
 //--------------------------
 indirect    : TEMPORARY EQ exps 
@@ -187,24 +196,23 @@ indirect    : TEMPORARY EQ exps
 }
             | RETVAL EQ exps 
 {
-    fcreatevar(NFUNC,$1,"0");
+    // fcreatevar(NFUNC,$1,"0");
     string callers = "";
     callers = $1;
     callers = callers + " = ";
-    // while(!call_params.empty()){
-    //     string par = call_params.front();
-    //     call_params.pop();
-    //     callers = callers + par + " ";
-    // }
+    while(!call_params.empty()){
+        string par = call_params.front();
+        call_params.pop();
+        callers = callers + par + " ";
+    }
     callers[callers.size()-1] = ';';
     functioncode[NFUNC] += callers;
-    // cout << callers << endl;
 }
             ;
 //--------------------------
 exps :  exp | ;
 //--------------------------
-exp : opr opr opr | ;
+exp : opr opr opr | opr;
 //--------------------------
 opr   : IDENTIFIER{call_params.push($1);}
         | H{call_params.push($1);}
@@ -240,7 +248,7 @@ func_parm   : PARAM      EQ TEMPORARY {call_params.push($3);}
 			| PARAM      EQ IDENTIFIER {call_params.push($3);}
             | ;
 //--------------------------
-retvaldecl 	: RETVAL EQ TEMPORARY 
+retvaldecl 	: RETVAL EQ TEMPORARY
 {
     cout << "rtval"<<endl;
     //     fcreatevar(NFUNC,$1,"0");
@@ -280,7 +288,7 @@ int main() {
         while (!stop_parsing) {
         yyparse();
     }
-    res << "#include<iostream> \nusing namespace std;\n" ;   ///////  R E S S
+    res << "#include<iostream> \nusing namespace std;\nint retval=0;\n" ;   ///////  R E S S
     
     
     // for (const auto& pair : globals) { 
@@ -291,17 +299,17 @@ int main() {
 
 
 
-    // for (const auto& pair : symboltable) {
-    //     res << "int " << pair.first << " = " ;      ///////  R E S S
-    //     std::cout << "Key: " << pair.first << " -> Values: ";
-    //     int g = 0;
-    //     for (int value : pair.second) {
-    //         std::cout << value << " ";
-    //         g = value;
-    //     }
-    //     res << g << ";" << endl;                         ///////  R E S S
-    //     std::cout << std::endl;
-    // } ///////////////////////////////////////////// D E B U G G I N G
+    for (const auto& pair : symboltable) {
+        res << "int " << pair.first << " = " ;      ///////  R E S S
+        // std::cout << "Key: " << pair.first << " -> Values: ";
+        int g = 0;
+        for (int value : pair.second) {
+            std::cout << value << " ";
+            g = value;
+        }
+        res << g << ";" << endl;                         ///////  R E S S
+        std::cout << std::endl;
+    } ///////////////////////////////////////////// D E B U G G I N G
 
 
   for (const auto& pairc : functions)
@@ -327,6 +335,7 @@ int main() {
     //   std::cout << std::endl;
     }
     res << functioncode[pairc.second];
+    res << "\nreturn retval;\n";
     res << "}"<<endl;
   }
     string ress = res.str();

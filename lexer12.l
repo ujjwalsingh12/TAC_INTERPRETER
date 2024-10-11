@@ -9,6 +9,7 @@ retval      {yylval.str = strdup(yytext);return RETVAL;}
 global      {yylval.str = strdup(yytext);return GLOBAL;}
 ENDD       { return ENDD;}
 [ \t\n]        {; }
+"@@"            {yylval.str = strdup(yytext);return XX;}
 "=="            {yylval.str = strdup(yytext);return H;}
 "="             {yylval.str = strdup(yytext);return EQ;}
 "("             { yylval.str = strdup(yytext);return OP;}

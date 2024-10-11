@@ -39,47 +39,49 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     RETVAL = 258,
-     GLOBAL = 259,
-     STR = 260,
-     EQ = 261,
-     ENDD = 262,
-     IDENTIFIER = 263,
-     F_IDENTIFIER = 264,
-     NUMBER = 265,
-     TEMPORARY = 266,
-     LABEL = 267,
-     GOTO = 268,
-     GOTO_LABEL = 269,
-     IF = 270,
-     RETURN = 271,
-     PARAM = 272,
-     CALL = 273,
-     H = 274,
-     OP = 275,
-     CP = 276
+     XX = 258,
+     RETVAL = 259,
+     GLOBAL = 260,
+     STR = 261,
+     EQ = 262,
+     ENDD = 263,
+     IDENTIFIER = 264,
+     F_IDENTIFIER = 265,
+     NUMBER = 266,
+     TEMPORARY = 267,
+     LABEL = 268,
+     GOTO = 269,
+     GOTO_LABEL = 270,
+     IF = 271,
+     RETURN = 272,
+     PARAM = 273,
+     CALL = 274,
+     H = 275,
+     OP = 276,
+     CP = 277
    };
 #endif
 /* Tokens.  */
-#define RETVAL 258
-#define GLOBAL 259
-#define STR 260
-#define EQ 261
-#define ENDD 262
-#define IDENTIFIER 263
-#define F_IDENTIFIER 264
-#define NUMBER 265
-#define TEMPORARY 266
-#define LABEL 267
-#define GOTO 268
-#define GOTO_LABEL 269
-#define IF 270
-#define RETURN 271
-#define PARAM 272
-#define CALL 273
-#define H 274
-#define OP 275
-#define CP 276
+#define XX 258
+#define RETVAL 259
+#define GLOBAL 260
+#define STR 261
+#define EQ 262
+#define ENDD 263
+#define IDENTIFIER 264
+#define F_IDENTIFIER 265
+#define NUMBER 266
+#define TEMPORARY 267
+#define LABEL 268
+#define GOTO 269
+#define GOTO_LABEL 270
+#define IF 271
+#define RETURN 272
+#define PARAM 273
+#define CALL 274
+#define H 275
+#define OP 276
+#define CP 277
 
 
 
@@ -91,7 +93,7 @@ typedef union YYSTYPE
     char *str;
 }
 /* Line 1529 of yacc.c.  */
-#line 95 "parser12.tab.h"
+#line 97 "parser12.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

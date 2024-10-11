@@ -1,6 +1,6 @@
 fibonacci:
 n = param1
-t1 = n <= 1
+t1 = n < 2
 if (t1) goto L1
 goto L2
 L1:

@@ -13,7 +13,7 @@ call factorial
 t3 = retval
 t4 = n + t3
 retval = t4
-return
+return @@
 
 main:
 t5 = 5
@@ -25,7 +25,7 @@ param1 = t6
 param2 = result
 call printf
 retval = 0
-return
+return @@
 
 ENDD
 ENDD
