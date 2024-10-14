@@ -169,6 +169,7 @@ assignmt    : direct
 //--------------------------
 direct      : IDENTIFIER EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
 			| TEMPORARY  EQ NUMBER {fcreatevarn(NFUNC,$1,$3);}
+			| IDENTIFIER  EQ NUMBER {fcreatevarn(NFUNC,$1,$3);}
 			| TEMPORARY	 EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
 			| TEMPORARY  EQ IDENTIFIER {fcreatevar(NFUNC,$1,$3);}
             | TEMPORARY EQ RETVAL {fcreatevar(NFUNC,$1,$3);}
@@ -273,6 +274,7 @@ func_parms  : func_parm func_parms | func_parm ;
 //--------------------------
 func_parm   : PARAM      EQ TEMPORARY {call_params.push($3);}
 			| PARAM      EQ IDENTIFIER {call_params.push($3);}
+            | PARAM      EQ NUMBER {call_params.push($3);}
             | ;
 //--------------------------
 

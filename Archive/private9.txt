@@ -1,4 +1,5 @@
-global hilariousGlobalmain:
+global hilariousGlobal
+main:
 t1 = 0
 crazyCounter = t1
 t2 = 4
