@@ -117,16 +117,18 @@
 #line 1 "parser12.y"
 
 
+
 #include <iostream>
-#include <map>
-#include <sstream>
+#include <vector>
 #include <string>
 #include <unordered_map>
-#include <vector>
+#include <map>
+#include <sstream>
 using namespace std;
 // Define external yylex function from Lex
 int yylex();
 void yyerror(const char *s);
+
 
 map<string, int> globals;
 
@@ -144,7 +146,7 @@ queue<string> call_params;
 
 string s = "";
 int retval = 0;
-vector<int> PARAMS(100, 0);
+vector<int> PARAMS(100,0);
 int NFUNC = -1;
 int stop_parsing = 0;
 int Ntemp = 0;
@@ -152,75 +154,75 @@ int Ntemp = 0;
 string temp;
 string print_string;
 
-void createfunc(string fun) {
+void createfunc(string fun){
     NFUNC++;
-    functions[fun.substr(0, fun.size() - 1)] = NFUNC;  // THIS WILL STORE THE ID OF FUNCTION
-    functioncode[NFUNC] = "";                          //
-    map<string, vector<string> > table;
+    functions[fun.substr(0,fun.size()-1)] = NFUNC; // THIS WILL STORE THE ID OF FUNCTION
+    functioncode[NFUNC] = ""; //
+    map<string,vector<string> > table;
     fsymboltable[NFUNC] = table;
     vector<string> tt;
     fparamtable[NFUNC] = tt;
+    
 }
 
-void createvarn(string x, string y) {
-    if (symboltable.find(x) == symboltable.end()) {
-        string s = s + "" + x + " = " + y + ";\n";
-        functioncode[NFUNC] += s;
-        vector<int> a;
-        a.push_back(stoi(y));
-        symboltable[x] = a;
-    } else {
-        string s = s + x + " = " + y + ";\n";
-        functioncode[NFUNC] += s;
-        symboltable[x].push_back(stoi(y));
-    }
+void createvarn(string x,string y){
+     if(symboltable.find(x)==symboltable.end()){
+                string s = s + "" + x + " = " + y +";\n";
+                functioncode[NFUNC] += s;
+                vector<int> a; a.push_back(stoi(y));
+                symboltable[x] = a;
+            }
+            else{
+                string s = s + x + " = " + y +";\n";
+                functioncode[NFUNC] += s;
+                symboltable[x].push_back(stoi(y));
+            }
 }
-void createvar(string x, string y) {
-    if (symboltable.find(x) == symboltable.end()) {
-        string s = s + "" + x + " = " + y + ";\n";
+void createvar(string x,string y){
+        if(symboltable.find(x)==symboltable.end()){
+        string s = s + "" + x + " = " + y +";\n";
         functioncode[NFUNC] += s;
-        vector<int> a;
-        a.push_back(symboltable[y].back());
+        vector<int> a; a.push_back(symboltable[y].back());
         symboltable[x] = a;
-    } else {
-        string s = s + x + " = " + y + ";\n";
+    }
+    else{
+        string s = s + x + " = " + y +";\n";
         functioncode[NFUNC] += s;
         symboltable[x].push_back(symboltable[y].back());
     }
 }
-void fcreatevar(int id, string x, string y) {
-    if (fsymboltable[id].find(x) == fsymboltable[id].end()) {
-        string s = s + "" + x + " = " + y + ";\n";
+void fcreatevar(int id,string x,string y){
+        if(fsymboltable[id].find(x)==fsymboltable[id].end() ){
+        string s = s + "" + x + " = " + y +";\n";
         functioncode[NFUNC] += s;
-        vector<string> a;
-        a.push_back(y);
+        vector<string> a; a.push_back(y);
         fsymboltable[id][x] = a;
-    } else {
-        string s = s + x + " = " + y + ";\n";
+    }
+    else{
+        string s = s + x + " = " + y +";\n";
         functioncode[NFUNC] += s;
         fsymboltable[id][x].push_back(y);
     }
 }
-void fcreatevarn(int id, string x, string y) {
-    if (fsymboltable[id].find(x) == fsymboltable[id].end()) {
-        string s = s + "" + x + " = " + y + ";\n";
-        functioncode[NFUNC] += s;
-        vector<string> a;
-        a.push_back(y);
-        fsymboltable[id][x] = a;
-    } else {
-        string s = s + x + " = " + y + ";\n";
-        functioncode[NFUNC] += s;
-        fsymboltable[id][x].push_back(y);
-    }
+void fcreatevarn(int id,string x,string y){
+     if(fsymboltable[id].find(x)==fsymboltable[id].end()){
+                string s = s + "" + x + " = " + y +";\n";
+                functioncode[NFUNC] += s;
+                vector<string> a; a.push_back(y);
+                fsymboltable[id][x] = a;
+            }
+            else{
+                string s = s + x + " = " + y +";\n";
+                functioncode[NFUNC] += s;
+                fsymboltable[id][x].push_back(y);
+            }
 }
-void fcreateparam(int id, string x) {
-    // s = s + x + " = " + y +",\n";
-    string g = "int " + x;
-
-    fparamtable[id].push_back(g);
+void fcreateparam(int id,string x){
+        // s = s + x + " = " + y +",\n";
+        string g = "int "+x;
+        
+        fparamtable[id].push_back(g);
 }
-
 
 
 
@@ -244,12 +246,12 @@ void fcreateparam(int id, string x) {
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 110 "parser12.y"
+#line 112 "parser12.y"
 {
     char *str;
 }
 /* Line 193 of yacc.c.  */
-#line 253 "parser12.tab.c"
+#line 255 "parser12.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -262,7 +264,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 266 "parser12.tab.c"
+#line 268 "parser12.tab.c"
 
 #ifdef short
 # undef short
@@ -565,12 +567,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   125,   125,   127,   128,   131,   132,   134,   135,   136,
-     137,   140,   141,   143,   143,   144,   146,   147,   149,   150,
-     152,   155,   156,   158,   159,   160,   161,   162,   163,   166,
-     167,   170,   171,   172,   173,   174,   175,   176,   179,   194,
-     210,   210,   212,   212,   214,   215,   216,   217,   220,   223,
-     225,   240,   272,   272,   274,   275,   276
+       0,   127,   127,   129,   130,   133,   134,   136,   137,   138,
+     139,   142,   143,   145,   145,   146,   148,   149,   151,   152,
+     154,   157,   158,   160,   161,   162,   163,   164,   165,   168,
+     169,   172,   173,   174,   175,   176,   177,   178,   181,   196,
+     212,   212,   214,   214,   216,   217,   218,   219,   222,   225,
+     227,   242,   274,   274,   276,   277,   278
 };
 #endif
 
@@ -1523,87 +1525,92 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 128 "parser12.y"
-    { stop_parsing = 1;YYABORT;;}
+#line 130 "parser12.y"
+    { printf("Ending...\n");stop_parsing = 1;YYABORT;;}
     break;
 
   case 8:
-#line 135 "parser12.y"
+#line 137 "parser12.y"
     {createvarn((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 9:
-#line 136 "parser12.y"
+#line 138 "parser12.y"
     {createvar((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 10:
-#line 137 "parser12.y"
+#line 139 "parser12.y"
     {createvar((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
   case 13:
-#line 143 "parser12.y"
+#line 145 "parser12.y"
     {createfunc((yyvsp[(1) - (1)].str));;}
     break;
 
+  case 14:
+#line 145 "parser12.y"
+    {cout<<" endding "<<(yyvsp[(1) - (3)].str)<<endl;;}
+    break;
+
   case 20:
-#line 152 "parser12.y"
+#line 154 "parser12.y"
     {fcreateparam(NFUNC,(yyvsp[(1) - (3)].str));;}
     break;
 
   case 26:
-#line 161 "parser12.y"
+#line 163 "parser12.y"
     {stringstream oss; oss << (yyvsp[(1) - (2)].str) << " " << (yyvsp[(2) - (2)].str) << ";"<< endl; functioncode[NFUNC]+=oss.str();oss.clear();;}
     break;
 
   case 27:
-#line 162 "parser12.y"
+#line 164 "parser12.y"
     {stringstream oss; oss << (yyvsp[(1) - (1)].str) << " " <<endl; functioncode[NFUNC]+=oss.str();oss.clear();;}
     break;
 
   case 28:
-#line 163 "parser12.y"
+#line 165 "parser12.y"
     {functioncode[NFUNC]+="\nreturn retval;\n";;}
     break;
 
   case 31:
-#line 170 "parser12.y"
-    {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
-    break;
-
-  case 32:
-#line 171 "parser12.y"
-    {fcreatevarn(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
-    break;
-
-  case 33:
 #line 172 "parser12.y"
     {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
-  case 34:
+  case 32:
 #line 173 "parser12.y"
-    {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
+    {fcreatevarn(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
-  case 35:
+  case 33:
 #line 174 "parser12.y"
     {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
-  case 36:
+  case 34:
 #line 175 "parser12.y"
     {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
     break;
 
-  case 37:
+  case 35:
 #line 176 "parser12.y"
-    {call_params.push((yyvsp[(3) - (3)].str));/*stringstream p;p<<$3; print_string = p.str();*/;}
+    {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
+    break;
+
+  case 36:
+#line 177 "parser12.y"
+    {fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));;}
+    break;
+
+  case 37:
+#line 178 "parser12.y"
+    {cout<<"string aaya bhai"<<endl;call_params.push((yyvsp[(3) - (3)].str));/*stringstream p;p<<$3; print_string = p.str();*/;}
     break;
 
   case 38:
-#line 180 "parser12.y"
+#line 182 "parser12.y"
     {
     fcreatevar(NFUNC,(yyvsp[(1) - (3)].str),"0");
     string callers = "";
@@ -1621,7 +1628,7 @@ yyreduce:
     break;
 
   case 39:
-#line 195 "parser12.y"
+#line 197 "parser12.y"
     {
     // fcreatevar(NFUNC,$1,"0");
     string callers = "";
@@ -1638,32 +1645,32 @@ yyreduce:
     break;
 
   case 44:
-#line 214 "parser12.y"
-    {call_params.push((yyvsp[(1) - (1)].str));;}
-    break;
-
-  case 45:
-#line 215 "parser12.y"
-    {call_params.push((yyvsp[(1) - (1)].str));;}
-    break;
-
-  case 46:
 #line 216 "parser12.y"
     {call_params.push((yyvsp[(1) - (1)].str));;}
     break;
 
-  case 47:
+  case 45:
 #line 217 "parser12.y"
     {call_params.push((yyvsp[(1) - (1)].str));;}
     break;
 
+  case 46:
+#line 218 "parser12.y"
+    {call_params.push((yyvsp[(1) - (1)].str));;}
+    break;
+
+  case 47:
+#line 219 "parser12.y"
+    {call_params.push((yyvsp[(1) - (1)].str));;}
+    break;
+
   case 48:
-#line 220 "parser12.y"
+#line 222 "parser12.y"
     {stringstream osss; osss << "if ( "<<(yyvsp[(3) - (6)].str)<<") goto "<<(yyvsp[(6) - (6)].str)<<";"; functioncode[NFUNC]+=osss.str();osss.clear();;}
     break;
 
   case 50:
-#line 226 "parser12.y"
+#line 228 "parser12.y"
     {
     string callers = "";
     callers = (yyvsp[(2) - (2)].str);
@@ -1676,12 +1683,12 @@ yyreduce:
     callers[callers.size()-1] = ')';
     callers = callers + ";";
     functioncode[NFUNC] += callers;
-    // cout << callers << endl;
+    cout << callers << endl;
 ;}
     break;
 
   case 51:
-#line 241 "parser12.y"
+#line 243 "parser12.y"
     {
     string callers = "printf(";
     int count = 0;
@@ -1695,7 +1702,7 @@ yyreduce:
     callers[callers.size()-1] = ')';
     callers = callers + ";";
     functioncode[NFUNC] += callers;
-    // cout << callers << endl;
+    cout << callers << endl;
 
     // string callers = "";
     // callers = $2;
@@ -1714,18 +1721,18 @@ yyreduce:
     break;
 
   case 54:
-#line 274 "parser12.y"
+#line 276 "parser12.y"
     {call_params.push((yyvsp[(3) - (3)].str));;}
     break;
 
   case 55:
-#line 275 "parser12.y"
+#line 277 "parser12.y"
     {call_params.push((yyvsp[(3) - (3)].str));;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1729 "parser12.tab.c"
+#line 1736 "parser12.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1939,88 +1946,64 @@ yyreturn:
 }
 
 
-#line 281 "parser12.y"
+#line 283 "parser12.y"
 
 
 // Main function to start the parser
 int main() {
     std::stringstream res;
-    while (!stop_parsing) {
+        while (!stop_parsing) {
         yyparse();
     }
-    res << "#include<iostream> \nusing namespace std;\nint retval=0;\n";  ///////  R E S S
-
-    // for (const auto& pair : globals) {
-
+    res << "#include<iostream> \nusing namespace std;\nint retval=0;\n" ;   ///////  R E S S
+    
+    
+    // for (const auto& pair : globals) { 
+        
     //     std::cout << "global variable: " << pair.first << " = " << pair.second;
     //    std::cout << std::endl;
     // } //only prints global variables for DEBUGGGIGNGGGG
 
+
+
     for (const auto& pair : symboltable) {
-        res << "int " << pair.first << " = ";  ///////  R E S S
+        res << "int " << pair.first << " = " ;      ///////  R E S S
         // std::cout << "Key: " << pair.first << " -> Values: ";
         int g = 0;
         for (int value : pair.second) {
             std::cout << value << " ";
             g = value;
         }
-        res << g << ";" << endl;  ///////  R E S S
+        res << g << ";" << endl;                         ///////  R E S S
         std::cout << std::endl;
-    }  ///////////////////////////////////////////// D E B U G G I N G
+    } ///////////////////////////////////////////// D E B U G G I N G
 
-    for (const auto& pairc : functions) {
-        // std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl; //// D E B U G G I N G
-        if(pairc.first != "main")
-        {
-            res << "int " << pairc.first << "(";  ///////  R E S S   function declaration
-            for (int i = 0; i < fparamtable[pairc.second].size(); i++) {
-                res << fparamtable[pairc.second][i];                       ///////  R E S S   function params
-                if (i < fparamtable[pairc.second].size() - 1) res << ",";  ///////  R E S S   same
-            }
-            res << ") {" << endl;  ///////  R E S S      main body starts
-            for (const auto& pair : fsymboltable[pairc.second]) {
-                res << "int " << pair.first << " = 0";  ///////  R E S S
-                                                        //   std::cout << "Key: " << pair.first << " -> Values: ";  //// D E B U G G I N G
-                string g = "";
-                //   for (string value : pair.second) {
-                //       std::cout << value << " ";
-                //       g = value;
-                //   }
-                res << g << ";" << endl;  ///////  R E S S
-                //   res << pair.second.back() << ";" << endl;    ///////  R E S S
-                //   std::cout << std::endl;
-            }
-            res << functioncode[pairc.second];
-            res << "}" << endl;
-        }
-    }
-    for (const auto& pairc : functions) {
-        // std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl; //// D E B U G G I N G
-        if(pairc.first == "main")
-        {
-            res << "int " << pairc.first << "(";  ///////  R E S S   function declaration
-            for (int i = 0; i < fparamtable[pairc.second].size(); i++) {
-                res << fparamtable[pairc.second][i];                       ///////  R E S S   function params
-                if (i < fparamtable[pairc.second].size() - 1) res << ",";  ///////  R E S S   same
-            }
-            res << ") {" << endl;  ///////  R E S S      main body starts
-            for (const auto& pair : fsymboltable[pairc.second]) {
-                res << "int " << pair.first << " = 0";  ///////  R E S S
-                                                        //   std::cout << "Key: " << pair.first << " -> Values: ";  //// D E B U G G I N G
-                string g = "";
-                //   for (string value : pair.second) {
-                //       std::cout << value << " ";
-                //       g = value;
-                //   }
-                res << g << ";" << endl;  ///////  R E S S
-                //   res << pair.second.back() << ";" << endl;    ///////  R E S S
-                //   std::cout << std::endl;
-            }
-            res << functioncode[pairc.second];
-            res << "}" << endl;
-        }
-    }
 
+  for (const auto& pairc : functions)
+  {
+    // std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl; //// D E B U G G I N G
+    res << "int " << pairc.first << "(";                   ///////  R E S S   function declaration
+    for(int i =0;i<fparamtable[pairc.second].size();i++){
+        res << fparamtable[pairc.second][i];                ///////  R E S S   function params
+        if(i<fparamtable[pairc.second].size()-1) res << ",";///////  R E S S   same
+    }
+    res << ") {" << endl;                                ///////  R E S S      main body starts
+    for (const auto& pair : fsymboltable[pairc.second])
+    {
+      res << "int " << pair.first << " = 0" ;                       ///////  R E S S
+    //   std::cout << "Key: " << pair.first << " -> Values: ";  //// D E B U G G I N G
+      string g = "";
+    //   for (string value : pair.second) {
+    //       std::cout << value << " ";
+    //       g = value;
+    //   }
+      res << g << ";" << endl;                     ///////  R E S S
+    //   res << pair.second.back() << ";" << endl;    ///////  R E S S
+    //   std::cout << std::endl;
+    }
+    res << functioncode[pairc.second];
+    res << "}"<<endl;
+  }
     string ress = res.str();
     cout << ress;
     // cout << s;
@@ -2028,4 +2011,7 @@ int main() {
 }
 
 // Error handling function
-void yyerror(const char* s) { fprintf(stderr, "Error: %s\n", s); }
+void yyerror(const char *s) {
+    fprintf(stderr, "Error: %s\n", s);
+
+}

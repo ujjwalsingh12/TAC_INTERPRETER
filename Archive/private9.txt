@@ -1,0 +1,57 @@
+global hilariousGlobalmain:
+t1 = 0
+crazyCounter = t1
+t2 = 4
+sillyNumber = t2
+t3 = 30
+weirdLimit = t3
+t4 = 0
+goofySum = t4
+t5 = 1
+loopyStep = t5
+t6 = 0
+crazyCounter = t6
+L1:
+t7 = crazyCounter < weirdLimit
+if ( t7 ) goto L2
+goto L3
+L2:
+t9 = goofySum + sillyNumber
+goofySum = t9
+t8 = crazyCounter + 1
+crazyCounter = t8
+goto L1
+L3:
+t10 = goofySum
+hilariousGlobal = t10
+t11 = 0
+crazyCounter = t11
+L4:
+t12 = crazyCounter < weirdLimit
+if ( t12 ) goto L5
+goto L6
+L5:
+t14 = goofySum + crazyCounter
+goofySum = t14
+t13 = crazyCounter + loopyStep
+crazyCounter = t13
+goto L4
+L6:
+t15 = 0
+crazyCounter = t15
+L7:
+t16 = crazyCounter < goofySum
+if ( t16 ) goto L8
+goto L9
+L8:
+t18 = hilariousGlobal + crazyCounter
+hilariousGlobal = t18
+t17 = crazyCounter + loopyStep
+crazyCounter = t17
+goto L7
+L9:
+retval = hilariousGlobal
+return
+
+ENDD
+ENDD

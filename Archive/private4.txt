@@ -1,0 +1,48 @@
+main:
+t1 = 1912
+alanTuring = t1
+t2 = 1815
+adaLovelace = t2
+t3 = 1903
+johnVonNeumann = t3
+t4 = 1906
+graceHopper = t4
+t5 = 1791
+charlesBabbage = t5
+t6 = 1955
+timBernersLee = t6
+t7 = 1941
+dennisRitchie = t7
+t8 = 1938
+donaldKnuth = t8
+t9 = 1955
+billGates = t9
+t10 = 1950
+steveWozniak = t10
+t11 = alanTuring + adaLovelace
+t12 = t11 - charlesBabbage
+legacyInnovation = t12
+t13 = johnVonNeumann * graceHopper
+pioneeringComputing = t13
+t14 = billGates / steveWozniak
+softwareRevolution = t14
+t15 = alanTuring / dennisRitchie
+t16 = alanTuring - t15
+cryptographyBreakthrough = t16
+t17 = donaldKnuth ** 2
+theoryToPractice = t17
+t18 = legacyInnovation + pioneeringComputing
+t19 = softwareRevolution * cryptographyBreakthrough
+t20 = t19 / theoryToPractice
+t21 = t18 - t20
+historyOfComputing = t21
+t22 = historyOfComputing
+t23 = "The final result of historyOfComputing is: %d\n"
+param1 = t22
+param2 = t23
+call printf
+retval = 0
+return
+
+ENDD
+ENDD

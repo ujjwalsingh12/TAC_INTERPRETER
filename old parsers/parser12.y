@@ -1,15 +1,17 @@
  %{
 
+
 #include <iostream>
-#include <map>
-#include <sstream>
+#include <vector>
 #include <string>
 #include <unordered_map>
-#include <vector>
+#include <map>
+#include <sstream>
 using namespace std;
 // Define external yylex function from Lex
 int yylex();
 void yyerror(const char *s);
+
 
 map<string, int> globals;
 
@@ -27,7 +29,7 @@ queue<string> call_params;
 
 string s = "";
 int retval = 0;
-vector<int> PARAMS(100, 0);
+vector<int> PARAMS(100,0);
 int NFUNC = -1;
 int stop_parsing = 0;
 int Ntemp = 0;
@@ -35,75 +37,75 @@ int Ntemp = 0;
 string temp;
 string print_string;
 
-void createfunc(string fun) {
+void createfunc(string fun){
     NFUNC++;
-    functions[fun.substr(0, fun.size() - 1)] = NFUNC;  // THIS WILL STORE THE ID OF FUNCTION
-    functioncode[NFUNC] = "";                          //
-    map<string, vector<string> > table;
+    functions[fun.substr(0,fun.size()-1)] = NFUNC; // THIS WILL STORE THE ID OF FUNCTION
+    functioncode[NFUNC] = ""; //
+    map<string,vector<string> > table;
     fsymboltable[NFUNC] = table;
     vector<string> tt;
     fparamtable[NFUNC] = tt;
+    
 }
 
-void createvarn(string x, string y) {
-    if (symboltable.find(x) == symboltable.end()) {
-        string s = s + "" + x + " = " + y + ";\n";
-        functioncode[NFUNC] += s;
-        vector<int> a;
-        a.push_back(stoi(y));
-        symboltable[x] = a;
-    } else {
-        string s = s + x + " = " + y + ";\n";
-        functioncode[NFUNC] += s;
-        symboltable[x].push_back(stoi(y));
-    }
+void createvarn(string x,string y){
+     if(symboltable.find(x)==symboltable.end()){
+                string s = s + "" + x + " = " + y +";\n";
+                functioncode[NFUNC] += s;
+                vector<int> a; a.push_back(stoi(y));
+                symboltable[x] = a;
+            }
+            else{
+                string s = s + x + " = " + y +";\n";
+                functioncode[NFUNC] += s;
+                symboltable[x].push_back(stoi(y));
+            }
 }
-void createvar(string x, string y) {
-    if (symboltable.find(x) == symboltable.end()) {
-        string s = s + "" + x + " = " + y + ";\n";
+void createvar(string x,string y){
+        if(symboltable.find(x)==symboltable.end()){
+        string s = s + "" + x + " = " + y +";\n";
         functioncode[NFUNC] += s;
-        vector<int> a;
-        a.push_back(symboltable[y].back());
+        vector<int> a; a.push_back(symboltable[y].back());
         symboltable[x] = a;
-    } else {
-        string s = s + x + " = " + y + ";\n";
+    }
+    else{
+        string s = s + x + " = " + y +";\n";
         functioncode[NFUNC] += s;
         symboltable[x].push_back(symboltable[y].back());
     }
 }
-void fcreatevar(int id, string x, string y) {
-    if (fsymboltable[id].find(x) == fsymboltable[id].end()) {
-        string s = s + "" + x + " = " + y + ";\n";
+void fcreatevar(int id,string x,string y){
+        if(fsymboltable[id].find(x)==fsymboltable[id].end() ){
+        string s = s + "" + x + " = " + y +";\n";
         functioncode[NFUNC] += s;
-        vector<string> a;
-        a.push_back(y);
+        vector<string> a; a.push_back(y);
         fsymboltable[id][x] = a;
-    } else {
-        string s = s + x + " = " + y + ";\n";
+    }
+    else{
+        string s = s + x + " = " + y +";\n";
         functioncode[NFUNC] += s;
         fsymboltable[id][x].push_back(y);
     }
 }
-void fcreatevarn(int id, string x, string y) {
-    if (fsymboltable[id].find(x) == fsymboltable[id].end()) {
-        string s = s + "" + x + " = " + y + ";\n";
-        functioncode[NFUNC] += s;
-        vector<string> a;
-        a.push_back(y);
-        fsymboltable[id][x] = a;
-    } else {
-        string s = s + x + " = " + y + ";\n";
-        functioncode[NFUNC] += s;
-        fsymboltable[id][x].push_back(y);
-    }
+void fcreatevarn(int id,string x,string y){
+     if(fsymboltable[id].find(x)==fsymboltable[id].end()){
+                string s = s + "" + x + " = " + y +";\n";
+                functioncode[NFUNC] += s;
+                vector<string> a; a.push_back(y);
+                fsymboltable[id][x] = a;
+            }
+            else{
+                string s = s + x + " = " + y +";\n";
+                functioncode[NFUNC] += s;
+                fsymboltable[id][x].push_back(y);
+            }
 }
-void fcreateparam(int id, string x) {
-    // s = s + x + " = " + y +",\n";
-    string g = "int " + x;
-
-    fparamtable[id].push_back(g);
+void fcreateparam(int id,string x){
+        // s = s + x + " = " + y +",\n";
+        string g = "int "+x;
+        
+        fparamtable[id].push_back(g);
 }
-
 
 %}
 
@@ -125,7 +127,7 @@ void fcreateparam(int id, string x) {
 start 		: program 
 //--------------------------
 program 	: globals functions
-			| ENDD  { stop_parsing = 1;YYABORT;}
+			| ENDD  { printf("Ending...\n");stop_parsing = 1;YYABORT;}
 			;
 //--------------------------
 globals 	: globaldecl globals   
@@ -140,7 +142,7 @@ globaldecl 	: GLOBAL IDENTIFIER
 functions 	: functions function
 			| ;
 //--------------------------
-function 	: F_IDENTIFIER {createfunc($1);} decls 
+function 	: F_IDENTIFIER {createfunc($1);} decls {cout<<" endding "<<$1<<endl;}
 			| ;
 //--------------------------
 decls 	:   paramdecls fundecls 
@@ -173,7 +175,7 @@ direct      : IDENTIFIER EQ TEMPORARY {fcreatevar(NFUNC,$1,$3);}
 			| TEMPORARY  EQ IDENTIFIER {fcreatevar(NFUNC,$1,$3);}
             | TEMPORARY EQ RETVAL {fcreatevar(NFUNC,$1,$3);}
             | IDENTIFIER EQ RETVAL {fcreatevar(NFUNC,$1,$3);}
-            | TEMPORARY EQ STR {call_params.push($3);/*stringstream p;p<<$3; print_string = p.str();*/}
+            | TEMPORARY EQ STR {cout<<"string aaya bhai"<<endl;call_params.push($3);/*stringstream p;p<<$3; print_string = p.str();*/}
 			;
 //--------------------------
 indirect    : TEMPORARY EQ exps 
@@ -235,7 +237,7 @@ caller : CALL IDENTIFIER
     callers[callers.size()-1] = ')';
     callers = callers + ";";
     functioncode[NFUNC] += callers;
-    // cout << callers << endl;
+    cout << callers << endl;
 }
     | CALL PRINTF
 {
@@ -251,7 +253,7 @@ caller : CALL IDENTIFIER
     callers[callers.size()-1] = ')';
     callers = callers + ";";
     functioncode[NFUNC] += callers;
-    // cout << callers << endl;
+    cout << callers << endl;
 
     // string callers = "";
     // callers = $2;
@@ -283,82 +285,58 @@ func_parm   : PARAM      EQ TEMPORARY {call_params.push($3);}
 // Main function to start the parser
 int main() {
     std::stringstream res;
-    while (!stop_parsing) {
+        while (!stop_parsing) {
         yyparse();
     }
-    res << "#include<iostream> \nusing namespace std;\nint retval=0;\n";  ///////  R E S S
-
-    // for (const auto& pair : globals) {
-
+    res << "#include<iostream> \nusing namespace std;\nint retval=0;\n" ;   ///////  R E S S
+    
+    
+    // for (const auto& pair : globals) { 
+        
     //     std::cout << "global variable: " << pair.first << " = " << pair.second;
     //    std::cout << std::endl;
     // } //only prints global variables for DEBUGGGIGNGGGG
 
+
+
     for (const auto& pair : symboltable) {
-        res << "int " << pair.first << " = ";  ///////  R E S S
+        res << "int " << pair.first << " = " ;      ///////  R E S S
         // std::cout << "Key: " << pair.first << " -> Values: ";
         int g = 0;
         for (int value : pair.second) {
             std::cout << value << " ";
             g = value;
         }
-        res << g << ";" << endl;  ///////  R E S S
+        res << g << ";" << endl;                         ///////  R E S S
         std::cout << std::endl;
-    }  ///////////////////////////////////////////// D E B U G G I N G
+    } ///////////////////////////////////////////// D E B U G G I N G
 
-    for (const auto& pairc : functions) {
-        // std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl; //// D E B U G G I N G
-        if(pairc.first != "main")
-        {
-            res << "int " << pairc.first << "(";  ///////  R E S S   function declaration
-            for (int i = 0; i < fparamtable[pairc.second].size(); i++) {
-                res << fparamtable[pairc.second][i];                       ///////  R E S S   function params
-                if (i < fparamtable[pairc.second].size() - 1) res << ",";  ///////  R E S S   same
-            }
-            res << ") {" << endl;  ///////  R E S S      main body starts
-            for (const auto& pair : fsymboltable[pairc.second]) {
-                res << "int " << pair.first << " = 0";  ///////  R E S S
-                                                        //   std::cout << "Key: " << pair.first << " -> Values: ";  //// D E B U G G I N G
-                string g = "";
-                //   for (string value : pair.second) {
-                //       std::cout << value << " ";
-                //       g = value;
-                //   }
-                res << g << ";" << endl;  ///////  R E S S
-                //   res << pair.second.back() << ";" << endl;    ///////  R E S S
-                //   std::cout << std::endl;
-            }
-            res << functioncode[pairc.second];
-            res << "}" << endl;
-        }
-    }
-    for (const auto& pairc : functions) {
-        // std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl; //// D E B U G G I N G
-        if(pairc.first == "main")
-        {
-            res << "int " << pairc.first << "(";  ///////  R E S S   function declaration
-            for (int i = 0; i < fparamtable[pairc.second].size(); i++) {
-                res << fparamtable[pairc.second][i];                       ///////  R E S S   function params
-                if (i < fparamtable[pairc.second].size() - 1) res << ",";  ///////  R E S S   same
-            }
-            res << ") {" << endl;  ///////  R E S S      main body starts
-            for (const auto& pair : fsymboltable[pairc.second]) {
-                res << "int " << pair.first << " = 0";  ///////  R E S S
-                                                        //   std::cout << "Key: " << pair.first << " -> Values: ";  //// D E B U G G I N G
-                string g = "";
-                //   for (string value : pair.second) {
-                //       std::cout << value << " ";
-                //       g = value;
-                //   }
-                res << g << ";" << endl;  ///////  R E S S
-                //   res << pair.second.back() << ";" << endl;    ///////  R E S S
-                //   std::cout << std::endl;
-            }
-            res << functioncode[pairc.second];
-            res << "}" << endl;
-        }
-    }
 
+  for (const auto& pairc : functions)
+  {
+    // std::cout << "function name: " << pairc.first << " = " << pairc.second<< endl; //// D E B U G G I N G
+    res << "int " << pairc.first << "(";                   ///////  R E S S   function declaration
+    for(int i =0;i<fparamtable[pairc.second].size();i++){
+        res << fparamtable[pairc.second][i];                ///////  R E S S   function params
+        if(i<fparamtable[pairc.second].size()-1) res << ",";///////  R E S S   same
+    }
+    res << ") {" << endl;                                ///////  R E S S      main body starts
+    for (const auto& pair : fsymboltable[pairc.second])
+    {
+      res << "int " << pair.first << " = 0" ;                       ///////  R E S S
+    //   std::cout << "Key: " << pair.first << " -> Values: ";  //// D E B U G G I N G
+      string g = "";
+    //   for (string value : pair.second) {
+    //       std::cout << value << " ";
+    //       g = value;
+    //   }
+      res << g << ";" << endl;                     ///////  R E S S
+    //   res << pair.second.back() << ";" << endl;    ///////  R E S S
+    //   std::cout << std::endl;
+    }
+    res << functioncode[pairc.second];
+    res << "}"<<endl;
+  }
     string ress = res.str();
     cout << ress;
     // cout << s;
@@ -366,4 +344,7 @@ int main() {
 }
 
 // Error handling function
-void yyerror(const char* s) { fprintf(stderr, "Error: %s\n", s); }
+void yyerror(const char *s) {
+    fprintf(stderr, "Error: %s\n", s);
+
+}

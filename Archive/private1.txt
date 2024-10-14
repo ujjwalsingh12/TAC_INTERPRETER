@@ -1,0 +1,20 @@
+main:
+t1 = 192
+socket = t1
+t2 = 9999
+port = t2
+t3 = 64
+datagram = t3
+t4 = 80
+header_bits80 = t4
+t5 = 9
+data = t5
+t6 = socket + port
+t7 = t6 + header_bits80
+t8 = t7 + data
+datagram = t8
+retval = 0
+return
+
+ENDD
+ENDD

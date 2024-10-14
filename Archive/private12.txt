@@ -1,0 +1,38 @@
+multiply_funny:
+giggleFactor = param1
+chuckleLimit = param2
+t1 = 0
+laughMeter = t1
+t2 = 0
+funnyCounter = t2
+L1:
+t3 = funnyCounter < chuckleLimit
+if ( t3 ) goto L2
+goto L3
+L2:
+t4 = laughMeter + giggleFactor
+laughMeter = t4
+t5 = funnyCounter + 1
+funnyCounter = t5
+goto L1
+L3:
+retval = laughMeter
+return
+main:
+t6 = 4
+t7 = 6
+param1 = t6
+param2 = t7
+call multiply_funny
+t8 = retval
+result = t8
+t9 = result
+t10 = "Result: %d\n"
+param1 = t9
+param2 = t10
+call printf
+retval = 0
+return
+
+ENDD
+ENDD

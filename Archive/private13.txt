@@ -1,0 +1,47 @@
+calculate_sum:
+n = param1
+t1 = 0
+sum = t1
+t2 = 0
+i = t2
+L1:
+t3 = i < n
+if ( t3 ) goto L2
+goto L3
+L2:
+t5 = i < 5
+if ( t5 ) goto L4
+goto L5
+L4:
+t6 = sum + i
+sum = t6
+goto L6
+L5:
+t7 = i + 10
+t8 = sum + t7
+sum = t8
+L6:
+t4 = i + 1
+i = t4
+goto L1
+L3:
+retval = sum
+return
+main:
+t9 = 10
+limit = t9
+t10 = limit
+param1 = t10
+call calculate_sum
+t11 = retval
+result = t11
+t12 = result
+t13 = "Final Sum: %d\n"
+param1 = t12
+param2 = t13
+call printf
+retval = 0
+return
+
+ENDD
+ENDD

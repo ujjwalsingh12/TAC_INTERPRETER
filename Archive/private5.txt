@@ -1,0 +1,98 @@
+main:
+t1 = 42
+bugFixer = t1
+t2 = 85
+codeWizard = t2
+t3 = 19
+featureCreep = t3
+t4 = 1
+rubberDuck = t4
+t5 = 999
+spaghettiCode = t5
+t6 = 500
+techDebt = t6
+t7 = 75
+refactorOverlord = t7
+t8 = 32
+mergeConflict = t8
+t9 = 101
+syntaxTyrant = t9
+t10 = 7
+commitMaster = t10
+t11 = codeWizard > bugFixer
+if ( t11 ) goto L1
+goto L2
+L1:
+t12 = codeWizard - bugFixer
+t13 = rubberDuck * 2
+t14 = t12 + t13
+mergeConflict = t14
+t15 = mergeConflict
+t16 = "Merge Conflict Value: %d\n"
+param1 = t16
+param2 = t15
+call printf
+goto L3
+L2:
+t17 = spaghettiCode == techDebt
+if ( t17 ) goto L4
+goto L5
+L4:
+t18 = rubberDuck * rubberDuck
+t19 = spaghettiCode + t18
+t20 = t19 - refactorOverlord
+spaghettiCode = t20
+t21 = spaghettiCode
+t22 = "Spaghetti Code Level: %d\n"
+param1 = t21
+param2 = t22
+call printf
+goto L6
+L5:
+t23 = featureCreep == rubberDuck
+if ( t23 ) goto L7
+goto L8
+L7:
+t24 = featureCreep * syntaxTyrant
+t25 = t24 - commitMaster
+featureCreep = t25
+t26 = featureCreep
+t27 = "Feature Creep is in check at: %d\n"
+param1 = t26
+param2 = t27
+call printf
+goto L9
+L8:
+t28 = commitMaster * 10
+t29 = techDebt > t28
+if ( t29 ) goto L10
+goto L11
+L10:
+t30 = commitMaster + rubberDuck
+t31 = techDebt - t30
+techDebt = t31
+t32 = techDebt
+t33 = "Tech Debt skyrockets to: %d\n"
+param1 = t32
+param2 = t33
+call printf
+goto L12
+L11:
+t34 = refactorOverlord + mergeConflict
+t35 = syntaxTyrant * bugFixer
+t36 = t34 + t35
+refactorOverlord = t36
+t37 = refactorOverlord
+t38 = "Refactor Overlord gains power to: %d\n"
+param1 = t37
+param2 = t38
+call printf
+L12:
+L9:
+L6:
+L3:
+retval = 0
+return
+
+ENDD
+ENDD

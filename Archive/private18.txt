@@ -1,0 +1,58 @@
+add_two_numbers:
+a = param1
+b = param2
+t1 = a + b
+retval = t1
+return
+multiply_two_numbers:
+a = param1
+b = param2
+t2 = a * b
+retval = t2
+return
+subtract_two_numbers:
+a = param1
+b = param2
+t3 = a - b
+retval = t3
+return
+main:
+param1 = 8
+param2 = 12
+call add_two_numbers
+t4 = retval
+sum = t4
+t5 = 5
+t6 = 4
+param1 = t5
+param2 = t6
+call multiply_two_numbers
+t7 = retval
+product = t7
+t8 = product
+t9 = sum
+param1 = t8
+param2 = t9
+call subtract_two_numbers
+t10 = retval
+difference = t10
+t11 = sum
+t12 = "Sum: %d\n"
+param1 = t11
+param2 = t12
+call printf
+t13 = product
+t14 = "Product: %d\n"
+param1 = t13
+param2 = t14
+call printf
+t15 = difference
+t16 = "Difference: %d\n"
+param1 = t15
+param2 = t16
+call printf
+retval = 0
+return
+
+ENDD
+ENDD

@@ -1,0 +1,40 @@
+add_witty:
+cleverValue = param1
+smartValue = param2
+t1 = cleverValue + smartValue
+retval = t1
+return
+multiply_witty:
+wittyValue = param1
+geniusValue = param2
+t2 = wittyValue * geniusValue
+retval = t2
+return
+main:
+param1 = 10
+param2 = 20
+call add_witty
+t3 = retval
+totalCleverness = t3
+t4 = 2
+t5 = 3
+param1 = t4
+param2 = t5
+call multiply_witty
+t6 = retval
+totalWit = t6
+t7 = totalCleverness
+t8 = "Clever Sum: %d\n"
+param1 = t7
+param2 = t8
+call printf
+t9 = totalWit
+t10 = "Witty Product: %d\n"
+param1 = t9
+param2 = t10
+call printf
+retval = 0
+return
+
+ENDD
+ENDD

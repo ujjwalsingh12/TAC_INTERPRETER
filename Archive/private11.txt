@@ -1,0 +1,45 @@
+add_numbers:
+a = param1
+b = param2
+t1 = a + b
+retval = t1
+return
+subtract_numbers:
+a = param1
+b = param2
+t2 = a - b
+retval = t2
+return
+main:
+x = 10
+t3 = 5
+y = t3
+t4 = x
+t5 = y
+param1 = t4
+param2 = t5
+call add_numbers
+t6 = retval
+result = t6
+t7 = result
+t8 = "Sum: %d\n"
+param1 = t7
+param2 = t8
+call printf
+t9 = x
+t10 = y
+param1 = t9
+param2 = t10
+call subtract_numbers
+t11 = retval
+result = t11
+t12 = result
+t13 = "Difference: %d\n"
+param1 = t12
+param2 = t13
+call printf
+retval = 0
+return
+
+ENDD
+ENDD

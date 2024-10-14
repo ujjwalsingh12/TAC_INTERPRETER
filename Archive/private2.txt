@@ -1,0 +1,66 @@
+main:
+t1 = 10
+apple = t1
+t2 = 20
+banana = t2
+t3 = 30
+cherry = t3
+t4 = 40
+dragonfruit = t4
+t5 = 50
+elderberry = t5
+t6 = 60
+fig = t6
+t7 = 70
+grape = t7
+t8 = 80
+honeydew = t8
+t9 = 90
+kiwi = t9
+t10 = 100
+lemon = t10
+t11 = 110
+mango = t11
+t12 = 120
+nectarine = t12
+t13 = 130
+orange = t13
+t14 = 140
+papaya = t14
+t15 = 150
+quince = t15
+t16 = 160
+raspberry = t16
+t17 = 170
+strawberry = t17
+t18 = 180
+tangerine = t18
+t19 = 190
+ugli_fruit = t19
+t20 = 200
+watermelon = t20
+t21 = banana + cherry
+t22 = t21 - fig
+apple = t22
+t23 = grape * 2
+t24 = t23 + kiwi
+elderberry = t24
+t25 = lemon / 2
+t26 = t25 + orange
+mango = t26
+t27 = watermelon - dragonfruit
+t28 = t27 + tangerine
+raspberry = t28
+t29 = quince + papaya
+t30 = t29 - strawberry
+ugli_fruit = t30
+t31 = apple + elderberry
+t32 = t31 + mango
+t33 = t32 + raspberry
+t34 = t33 + ugli_fruit
+fruit_salad = t34
+retval = 0
+return
+
+ENDD
+ENDD

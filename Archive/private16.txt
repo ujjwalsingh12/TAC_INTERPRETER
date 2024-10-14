@@ -1,0 +1,35 @@
+sum_of_numbers:
+n = param1
+t1 = 0
+total = t1
+t2 = 0
+i = t2
+L1:
+t3 = i < n
+if ( t3 ) goto L2
+goto L3
+L2:
+t5 = total + i
+total = t5
+t4 = i + 1
+i = t4
+goto L1
+L3:
+retval = total
+return
+main:
+t6 = 10
+param1 = t6
+call sum_of_numbers
+t7 = retval
+result = t7
+t8 = result
+t9 = "Sum of numbers: %d\n"
+param1 = t8
+param2 = t9
+call printf
+retval = 0
+return
+
+ENDD
+ENDD

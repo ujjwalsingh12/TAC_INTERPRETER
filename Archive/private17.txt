@@ -1,0 +1,44 @@
+mysterious_counter:
+limit = param1
+t1 = 2
+funValue = t1
+t2 = 0
+laughTracker = t2
+L1:
+t3 = laughTracker < limit
+if ( t3 ) goto L2
+goto L3
+L2:
+t4 = funValue < 10
+if ( t4 ) goto L4
+goto L5
+L4:
+t5 = funValue + 4
+funValue = t5
+goto L6
+L5:
+t6 = funValue + 2
+funValue = t6
+L6:
+t7 = laughTracker + 1
+laughTracker = t7
+goto L1
+L3:
+retval = funValue
+return
+main:
+t8 = 12
+param1 = t8
+call mysterious_counter
+t9 = retval
+result = t9
+t10 = result
+t11 = "mysterious Result: %d\n"
+param1 = t10
+param2 = t11
+call printf
+retval = 0
+return
+
+ENDD
+ENDD

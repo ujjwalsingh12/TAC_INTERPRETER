@@ -1,0 +1,47 @@
+different_addition:
+funkyValue = param1
+oddLimit = param2
+t1 = 0
+funnySum = t1
+t2 = funkyValue > oddLimit
+if ( t2 ) goto L1
+goto L2
+L1:
+t3 = funkyValue + oddLimit
+t4 = t3 + 3
+funnySum = t4
+goto L3
+L2:
+t5 = funkyValue == oddLimit
+if ( t5 ) goto L4
+goto L5
+L4:
+t6 = funkyValue * 2
+t7 = t6 + 5
+funnySum = t7
+goto L6
+L5:
+t8 = funkyValue + 1
+funnySum = t8
+L6:
+L3:
+retval = funnySum
+return
+main:
+t9 = 7
+t10 = 10
+param1 = t9
+param2 = t10
+call different_addition
+t11 = retval
+result = t11
+t12 = result
+t13 = "different Result: %d\n"
+param1 = t12
+param2 = t13
+call printf
+retval = 0
+return
+
+ENDD
+ENDD
