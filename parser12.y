@@ -206,6 +206,35 @@ indirect    : TEMPORARY EQ exps
     callers[callers.size()-1] = ';';
     functioncode[NFUNC] += callers;
 }
+            | RETVAL EQ exps
+{
+    // fcreatevar(NFUNC,$1,"0");
+    string callers = "";
+    callers = $1;
+    callers = callers + " = ";
+    while(!call_params.empty()){
+        string par = call_params.front();
+        call_params.pop();
+        callers = callers + par + " ";
+    }
+    callers[callers.size()-1] = ';';
+    functioncode[NFUNC] += callers;
+    // cout << callers << endl;
+}
+            | RETVAL EQ exps 
+{
+    // fcreatevar(NFUNC,$1,"0");
+    string callers = "";
+    callers = $1;
+    callers = callers + " = ";
+    while(!call_params.empty()){
+        string par = call_params.front();
+        call_params.pop();
+        callers = callers + par + " ";
+    }
+    callers[callers.size()-1] = ';';
+    functioncode[NFUNC] += callers;
+}
             ;
 //--------------------------
 exps :  exp | ;
