@@ -245,6 +245,7 @@ opr   : IDENTIFIER{call_params.push($1);}
         | H{call_params.push($1);}
         | NUMBER{call_params.push($1);}
         | TEMPORARY{call_params.push($1);}
+        | RETVAL{call_params.push($1);}
 		;
 //--------------------------
 opral : IF OP TEMPORARY CP GOTO GOTO_LABEL {stringstream osss; osss << "if ( "<<$3<<") goto "<<$6<<";"; functioncode[NFUNC]+=osss.str();osss.clear();}

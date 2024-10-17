@@ -1,0 +1,73 @@
+global goofyGlobal
+
+
+main:
+t1 = 1
+funkyCounter = t1
+t2 = 5
+weirdNumber = t2
+t3 = 20
+sillyLimit = t3
+t4 = 0
+bizarreSum = t4
+t5 = 2
+loopyControl = t5
+t6 = 3
+oddIncrement = t6
+L1:
+t7 = funkyCounter < sillyLimit
+if (t7) goto L2
+goto L3
+L2:
+t8 = weirdNumber * loopyControl
+t9 = bizarreSum + t8
+bizarreSum = t9
+t10 = funkyCounter + loopyControl
+funkyCounter = t10
+t11 = loopyControl + oddIncrement
+loopyControl = t11
+goto L1
+L3:
+t12 = bizarreSum
+goofyGlobal = t12
+t13 = 1
+funkyCounter = t13
+t14 = 1
+loopyControl = t14
+L4:
+t15 = funkyCounter < sillyLimit
+if (t15) goto L5
+goto L6
+L5:
+t16 = goofyGlobal / loopyControl
+t17 = bizarreSum + t16
+bizarreSum = t17
+t18 = loopyControl + oddIncrement
+loopyControl = t18
+t19 = funkyCounter + oddIncrement
+funkyCounter = t19
+goto L4
+L6:
+L7:
+t20 = sillyLimit > 0
+if (t20) goto L8
+goto L9
+L8:
+t21 = funkyCounter * oddIncrement
+t22 = goofyGlobal + t21
+goofyGlobal = t22
+t23 = funkyCounter - 1
+funkyCounter = t23
+t24 = sillyLimit - 2
+sillyLimit = t24
+goto L7
+L9:
+t25 = "This is Goofy: %d\n"
+t26 = goofyGlobal
+param1 = t25
+param2 = t26
+call printf
+retval = 0
+return
+ENDD
+ENDD

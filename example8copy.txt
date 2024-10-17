@@ -1,0 +1,19 @@
+main:
+retval = 1
+return
+retval = n
+return
+
+main:
+main:
+retval = 1
+return
+retval = n
+return
+t1 = factorial
+result = t1
+retval = 0
+return
+
+ENDD
+ENDD
